@@ -1,623 +1,578 @@
 <!DOCTYPE html>
-<html lang="vi" class="h-full bg-slate-900">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Hệ Thống Đào Tạo Đàm Phán Nợ Hanmir (Bản Chuẩn Mực Nghiệp Vụ)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Hệ Thống Đào Tạo Đàm Phán Nợ Hanmir</title>
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #1c1917; color: #e7e5e4;
+            display: flex; flex-direction: column; min-height: 100vh;
+            font-size: 14px; line-height: 1.5;
             -webkit-tap-highlight-color: transparent;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #1e293b;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #292524; }
+        ::-webkit-scrollbar-thumb { background: #57534e; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #78716c; }
+
+        header { background: #0c0a09; border-bottom: 1px solid #292524; position: sticky; top: 0; z-index: 30; box-shadow: 0 4px 16px rgba(0,0,0,.4); }
+        .header-inner { max-width: 1280px; margin: 0 auto; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+        .logo-wrap { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { padding: 8px; background: rgba(234,88,12,.08); border: 1px solid rgba(234,88,12,.3); border-radius: 12px; font-size: 20px; }
+        .logo-title { font-size: 18px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .badge-portal { font-size: 10px; background: rgba(234,88,12,.15); color: #fb923c; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(234,88,12,.3); font-family: monospace; letter-spacing: .1em; font-weight: 700; }
+        .logo-sub { font-size: 11px; color: #a8a29e; }
+        .header-meta { background: #1c1917; border: 1px solid #292524; border-radius: 12px; padding: 8px 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; font-size: 11px; }
+        .ping-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ea580c; animation: ping 1.2s ease-in-out infinite; }
+        @keyframes ping { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.5)} }
+        .meta-sep { width: 1px; height: 16px; background: #292524; }
+
+        main { flex: 1; max-width: 1280px; width: 100%; margin: 0 auto; padding: 16px; display: flex; flex-wrap: wrap; gap: 20px; }
+        .left-panel { width: 300px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; }
+        .right-panel { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+        @media(max-width:900px){ .left-panel { width: 100%; } }
+
+        .card { background: #0c0a09; border: 1px solid #292524; border-radius: 16px; padding: 16px 20px; box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+        .card-title { font-size: 11px; font-weight: 700; color: #fb923c; text-transform: uppercase; letter-spacing: .08em; display: flex; align-items: center; gap: 6px; }
+        .card-sub { font-size: 11px; color: #78716c; margin-top: 4px; }
+        .card-header { border-bottom: 1px solid #292524; padding-bottom: 10px; margin-bottom: 14px; }
+
+        .dir-item { background: #1c1917; border: 1px solid #292524; border-radius: 12px; padding: 10px 12px; display: flex; gap: 10px; margin-bottom: 10px; }
+        .dir-item:last-child { margin-bottom: 0; }
+        .dir-num { font-weight: 800; font-size: 13px; flex-shrink: 0; }
+        .dir-body { font-size: 11px; color: #a8a29e; }
+        .dir-body strong { color: #e7e5e4; display: block; margin-bottom: 2px; font-size: 12px; }
+        .dir-item.green-bg { background: rgba(6,78,59,.15); border-color: rgba(6,78,59,.4); }
+
+        .hotline-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        @media(min-width:901px){ .hotline-grid { grid-template-columns: 1fr; } }
+        .hotline-item { background: #1c1917; border: 1px solid #292524; border-radius: 12px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .hotline-lbl { font-size: 10px; color: #78716c; }
+        .hotline-num { font-weight: 700; color: #fb923c; font-family: monospace; font-size: 12px; text-decoration: none; }
+        .hotline-num:hover { text-decoration: underline; }
+
+        .tab-nav { background: #0c0a09; border: 1px solid #292524; border-radius: 14px; padding: 4px; display: flex; gap: 4px; overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all .2s; white-space: nowrap; color: #78716c; background: transparent; }
+        .tab-btn:hover { color: #e7e5e4; background: #1c1917; }
+        .tab-btn.active { background: #ea580c; color: #fff; box-shadow: 0 2px 8px rgba(234,88,12,.4); }
+
+        .tab-content-wrap { flex: 1; background: #0c0a09; border: 1px solid #292524; border-radius: 16px; padding: 20px 24px; overflow-y: auto; max-height: calc(100vh - 200px); }
+        @media(max-width:900px){ .tab-content-wrap { max-height: none; overflow-y: visible; } }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+
+        .tab-header { border-bottom: 1px solid #292524; padding-bottom: 10px; margin-bottom: 18px; }
+        .tab-title { font-size: 15px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        .tab-desc { font-size: 11px; color: #78716c; }
+
+        .section-block { background: rgba(28,25,23,.6); border: 1px solid #292524; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
+        .section-block:last-child { margin-bottom: 0; }
+        .section-block.violet { border-color: rgba(109,40,217,.35); }
+        .section-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; border-bottom: 1px solid #292524; padding-bottom: 8px; margin-bottom: 14px; }
+        .section-header.violet { border-color: rgba(109,40,217,.25); }
+        .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; display: flex; align-items: center; gap: 6px; }
+        .sl-indigo { color: #818cf8; } .sl-orange { color: #fb923c; } .sl-emerald { color: #34d399; } .sl-amber { color: #fbbf24; } .sl-violet { color: #a78bfa; }
+        .section-tone { font-size: 10px; font-style: italic; font-family: monospace; }
+        .st-indigo { color: #818cf8; } .st-orange { color: #fb923c; } .st-emerald { color: #34d399; } .st-amber { color: #fbbf24; } .st-violet { color: #a78bfa; }
+
+        .content-body { font-size: 12px; line-height: 1.7; }
+        @media(min-width:600px){ .content-body { font-size: 13px; } }
+        .content-body p { margin-bottom: 12px; color: #d6d3d1; }
+        .content-body p:last-child { margin-bottom: 0; }
+        .nv-label { color: #fb923c; font-weight: 700; text-transform: uppercase; }
+        .pt-sep { border-top: 1px solid rgba(41,37,36,.8); padding-top: 12px; margin-top: 4px; }
+
+        .tag-indigo { background: #1e1b4b; color: #818cf8; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(99,102,241,.3); font-family: monospace; font-size: 10px; text-transform: uppercase; display: inline-block; }
+        .tag-orange { background: #2a0a00; color: #fb923c; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(234,88,12,.3); font-family: monospace; font-size: 10px; text-transform: uppercase; display: inline-block; }
+        .tag-red { background: #1c0a0a; color: #f87171; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(239,68,68,.3); font-family: monospace; font-size: 10px; display: inline-block; }
+
+        .amber-box { background: rgba(245,158,11,.04); border: 1px solid rgba(245,158,11,.25); border-radius: 12px; padding: 12px 14px; margin: 8px 0; }
+        .amber-box-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; color: #fbbf24; display: block; margin-bottom: 6px; }
+        .amber-box p { color: #fcd34d !important; font-style: italic; font-size: 12px; }
+        .amber-box strong { color: #fbbf24; font-style: normal; }
+        .amber-left { background: rgba(245,158,11,.04); border-left: 2px solid #f59e0b; padding: 10px 12px; margin: 8px 0; color: #fcd34d; font-style: italic; font-size: 11px; border-radius: 0 6px 6px 0; line-height: 1.6; }
+
+        .legend { background: #1c1917; border: 1px solid #292524; border-radius: 12px; padding: 8px 16px; display: flex; align-items: center; justify-content: space-around; gap: 8px; font-size: 11px; margin-bottom: 14px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .sep-v { width: 1px; height: 16px; background: #292524; }
+
+        .violet-hint { background: rgba(109,40,217,.05); border: 1px solid rgba(109,40,217,.2); border-radius: 8px; padding: 8px 12px; font-size: 11px; color: #c4b5fd; font-weight: 600; margin-bottom: 12px; }
+        .step-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #a78bfa; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; margin-top: 14px; }
+        .step-lbl:first-child { margin-top: 0; }
+        .branch-grid { display: grid; gap: 8px; grid-template-columns: 1fr; margin-bottom: 14px; }
+        @media(min-width:600px){ .branch-grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .branch-card { background: #0c0a09; border: 1px solid #44403c; border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #a8a29e; line-height: 1.5; }
+        .branch-card .bc-head { font-weight: 700; display: block; margin-bottom: 6px; font-size: 12px; }
+        .bc-red { color: #f87171; } .bc-amber { color: #fbbf24; } .bc-slate { color: #e7e5e4; }
+        .t-indigo { color: #818cf8; } .t-orange { color: #fb923c; } .t-emerald { color: #34d399; } .t-amber { color: #fbbf24; } .t-violet { color: #a78bfa; }
+
+        .option-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 12px 0; }
+        @media(min-width:600px){ .option-grid { grid-template-columns: 1fr 1fr; } }
+        .option-card { background: #0c0a09; border-radius: 12px; padding: 14px 16px; }
+        .option-card.indigo { border: 1px solid rgba(99,102,241,.25); }
+        .option-card.orange { border: 1px solid rgba(234,88,12,.25); }
+        .option-card.emerald { border: 1px solid rgba(52,211,153,.25); }
+        .option-card.red { border: 1px solid rgba(239,68,68,.25); }
+        .option-badge { display: inline-block; font-size: 9px; font-weight: 700; font-family: monospace; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; letter-spacing: .05em; }
+        .option-badge.indigo { background: rgba(99,102,241,.1); color: #818cf8; border: 1px solid rgba(99,102,241,.3); }
+        .option-badge.orange { background: rgba(234,88,12,.1); color: #fb923c; border: 1px solid rgba(234,88,12,.3); }
+        .option-badge.emerald { background: rgba(52,211,153,.1); color: #34d399; border: 1px solid rgba(52,211,153,.3); }
+        .option-badge.red { background: rgba(239,68,68,.1); color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+        .option-title { font-weight: 700; color: #fff; font-size: 12px; margin: 4px 0 6px; }
+        .option-body { font-size: 12px; color: #a8a29e; line-height: 1.6; }
+
+        .obj-item { background: #1c1917; border: 1px solid #292524; border-radius: 12px; overflow: hidden; margin-bottom: 12px; transition: border-color .2s; }
+        .obj-item:hover { border-color: #44403c; }
+        .obj-item:last-child { margin-bottom: 0; }
+        .obj-btn { width: 100%; text-align: left; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; font-weight: 700; color: #fff; background: #1c1917; border: none; cursor: pointer; transition: background .2s; }
+        .obj-btn:hover { background: #292524; }
+        .obj-btn-left { display: flex; align-items: center; gap: 8px; }
+        .obj-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(234,88,12,.15); color: #fb923c; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+        .obj-chevron { color: #78716c; font-size: 12px; transition: transform .25s; flex-shrink: 0; display: inline-block; }
+        .obj-chevron.open { transform: rotate(180deg); }
+        .obj-answer { display: none; padding: 14px 18px; border-top: 1px solid rgba(41,37,36,.8); background: rgba(12,10,9,.5); font-size: 12px; color: #d6d3d1; line-height: 1.7; }
+        .obj-answer.show { display: block; }
+        .obj-answer-label { color: #fb923c; font-weight: 700; font-size: 11px; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+        .obj-answer p { margin-bottom: 10px; }
+        .obj-answer p:last-child { margin-bottom: 0; }
+
+        .matrix-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        @media(min-width:700px){ .matrix-grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .matrix-col { border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden; }
+        .matrix-col.red { background: rgba(127,29,29,.08); border: 1px solid rgba(239,68,68,.2); }
+        .matrix-col.indigo { background: rgba(30,27,75,.08); border: 1px solid rgba(99,102,241,.2); }
+        .matrix-col.orange { background: rgba(234,88,12,.08); border: 1px solid rgba(234,88,12,.2); }
+        .matrix-col.emerald { background: rgba(6,78,59,.08); border: 1px solid rgba(52,211,153,.2); }
+        .matrix-deco { position: absolute; top: -10px; right: -10px; width: 80px; height: 80px; border-radius: 50%; }
+        .matrix-deco.red { background: rgba(239,68,68,.04); }
+        .matrix-deco.indigo { background: rgba(99,102,241,.04); }
+        .matrix-deco.orange { background: rgba(234,88,12,.04); }
+        .matrix-deco.emerald { background: rgba(52,211,153,.04); }
+        .matrix-badge { display: inline-block; font-size: 9px; font-weight: 700; font-family: monospace; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; letter-spacing: .04em; }
+        .matrix-badge.red { background: rgba(239,68,68,.08); color: #f87171; border: 1px solid rgba(239,68,68,.2); }
+        .matrix-badge.indigo { background: rgba(99,102,241,.08); color: #818cf8; border: 1px solid rgba(99,102,241,.2); }
+        .matrix-badge.orange { background: rgba(234,88,12,.08); color: #fb923c; border: 1px solid rgba(234,88,12,.2); }
+        .matrix-badge.emerald { background: rgba(52,211,153,.08); color: #34d399; border: 1px solid rgba(52,211,153,.2); }
+        .matrix-title { font-weight: 700; color: #fff; font-size: 13px; display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+        .matrix-rows { flex: 1; }
+        .matrix-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; font-size: 11px; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid rgba(41,37,36,.8); }
+        .matrix-row:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .matrix-row-lbl { color: #a8a29e; flex-shrink: 0; }
+        .matrix-row-val { font-weight: 600; text-align: right; }
+        .mrv-red { color: #f87171; } .mrv-indigo { color: #818cf8; font-family: monospace; } .mrv-orange { color: #fb923c; font-family: monospace; } .mrv-emerald { color: #34d399; font-family: monospace; } .mrv-white { color: #fff; }
+        .matrix-footer { padding: 8px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; text-align: center; }
+        .matrix-footer.red { background: rgba(239,68,68,.05); border: 1px solid rgba(239,68,68,.1); color: #f87171; }
+        .matrix-footer.indigo { background: rgba(99,102,241,.05); border: 1px solid rgba(99,102,241,.1); color: #818cf8; }
+        .matrix-footer.orange { background: rgba(234,88,12,.05); border: 1px solid rgba(234,88,12,.1); color: #fb923c; }
+        .matrix-footer.emerald { background: rgba(52,211,153,.05); border: 1px solid rgba(52,211,153,.1); color: #34d399; }
+
+        footer { background: #0c0a09; border-top: 1px solid #292524; padding: 10px 16px; text-align: center; font-size: 11px; color: #57534e; }
+        .amber { color: #fbbf24; font-weight: 700; }
     </style>
 </head>
-<body class="min-h-full text-slate-100 flex flex-col antialiased selection:bg-indigo-500 selection:text-white bg-slate-900">
+<body>
 
-    <!-- Header ứng dụng -->
-    <header class="bg-slate-950 border-b border-slate-800 shrink-0 sticky top-0 z-30 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center space-x-3 w-full sm:w-auto">
-                <div class="p-2 bg-indigo-600/10 rounded-xl border border-indigo-500/30 text-indigo-400 shrink-0">
-                    <i class="fa-solid fa-scale-balanced text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-lg font-extrabold tracking-tight text-white flex items-center gap-2">
-                        HANMIR <span class="text-[10px] bg-indigo-600/20 text-indigo-400 px-1.5 py-0.5 rounded border border-indigo-500/30 uppercase font-mono tracking-widest font-bold">PORTAL</span>
-                    </h1>
-                    <p class="text-[11px] text-slate-400 leading-tight">Hệ Thống Đào Tạo Đàm Phán & Thu Hồi Nợ (Có Người Thân)</p>
-                </div>
-            </div>
-            
-            <div class="w-full sm:w-auto flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs bg-slate-900 border border-slate-800 rounded-xl p-2.5 sm:px-4 sm:py-2">
-                <div class="flex items-center gap-1.5">
-                    <span class="h-2 w-2 rounded-full bg-indigo-500 animate-ping shrink-0"></span>
-                    <span class="text-slate-400">CHIẾN DỊCH:</span>
-                    <span class="text-indigo-400 font-extrabold font-mono uppercase tracking-wider">HẠN CHÓT TRONG 48H</span>
-                </div>
-                <div class="hidden sm:block h-4 w-[1px] bg-slate-800"></div>
-                <div class="flex items-center gap-1.5">
-                    <span class="text-slate-400">YÊU CẦU:</span>
-                    <span class="text-emerald-400 font-bold uppercase text-[11px]">đóng trước 1-2 triệu giữ cơ chế hồ sơ</span>
-                </div>
+<header>
+    <div class="header-inner">
+        <div class="logo-wrap">
+            <div class="logo-icon">⚖️</div>
+            <div>
+                <div class="logo-title">HANMIR <span class="badge-portal">PORTAL</span></div>
+                <div class="logo-sub">Hệ Thống Đào Tạo Đàm Phán & Thu Hồi Nợ (Có Người Thân)</div>
             </div>
         </div>
-    </header>
-
-    <!-- Nội dung chính -->
-    <main class="flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 gap-6 md:overflow-hidden">
-        
-        <!-- LEFT PANEL: Chỉ thị nghiệp vụ cứng -->
-        <section class="w-full md:w-80 shrink-0 flex flex-col gap-4">
-            
-            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col gap-4">
-                <div class="border-b border-slate-800 pb-3">
-                    <h2 class="font-bold text-white flex items-center gap-2 text-sm uppercase tracking-wider text-indigo-400">
-                        <i class="fa-solid fa-circle-check"></i> Chỉ Thị Nghiệp Vụ Cứng
-                    </h2>
-                    <p class="text-[11px] text-slate-500 mt-1">Chuẩn mực bắt buộc tuân thủ để nắm quyền chủ động</p>
-                </div>
-
-                <div class="space-y-3 text-xs">
-                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex gap-2.5">
-                        <span class="text-indigo-400 font-bold text-sm">01</span>
-                        <div>
-                            <span class="font-bold text-slate-200 block mb-0.5">Xác minh danh tính trước</span>
-                            Xác nhận đúng tên khách nợ trong 3 giây đầu. Nếu người thân nghe máy, chuyển sang kịch bản dấu ngoặc <span class="text-amber-400 font-bold">( )</span>.
-                        </div>
-                    </div>
-
-                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex gap-2.5">
-                        <span class="text-indigo-400 font-bold text-sm">02</span>
-                        <div>
-                            <span class="font-bold text-slate-200 block mb-0.5">Xưng hô chuẩn mực "Tôi - Anh/Chị"</span>
-                            Lịch sự, đĩnh đạc nhưng lạnh lùng. Tuyệt đối không xưng "Em" làm giảm uy thế của tổ chức pháp lý.
-                        </div>
-                    </div>
-
-                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex gap-2.5">
-                        <span class="text-indigo-400 font-bold text-sm">03</span>
-                        <div>
-                            <span class="font-bold text-slate-200 block mb-0.5">Tuyệt đối không khen ngợi</span>
-                            Không khen lịch sử đóng cũ. Đọc số kỳ đóng một cách kỹ thuật để thể hiện Hanmir nắm cực kỳ chắc hồ sơ gốc.
-                        </div>
-                    </div>
-
-                    <div class="p-3 bg-emerald-950/20 border border-emerald-900/50 rounded-xl flex gap-2.5">
-                        <span class="text-emerald-400 font-bold text-sm">04</span>
-                        <div>
-                            <span class="font-bold text-slate-200 block mb-0.5">Phương án đóng trước 2 triệu bảo lưu</span>
-                            Đây là điều kiện tiên quyết duy nhất để hoãn tống đạt đơn kiện khởi tố ra pháp luật địa phương.
-                        </div>
-                    </div>
-                </div>
+        <div class="header-meta">
+            <div style="display:flex;align-items:center;gap:6px;">
+                <span class="ping-dot"></span>
+                <span style="color:#a8a29e;">CHIẾN DỊCH:</span>
+                <span style="color:#fb923c;font-weight:800;font-family:monospace;text-transform:uppercase;letter-spacing:.05em;">HẠN CHÓT TRONG 48H</span>
             </div>
+            <div class="meta-sep"></div>
+            <div style="display:flex;align-items:center;gap:6px;">
+                <span style="color:#a8a29e;">YÊU CẦU:</span>
+                <span style="color:#34d399;font-weight:700;text-transform:uppercase;">đóng trước 1-2 triệu giữ cơ chế hồ sơ</span>
+            </div>
+        </div>
+    </div>
+</header>
 
-            <!-- Hotline thông tin nhanh -->
-            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col gap-3">
-                <h3 class="font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-headset"></i> Hotline Liên Hệ Hanmir
-                </h3>
-                <div class="grid grid-cols-2 md:grid-cols-1 gap-2 text-xs">
-                    <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
-                        <span class="text-slate-400 text-[10px]">Hotline 1:</span>
-                        <a href="tel:0365490837" class="font-bold text-indigo-400 font-mono text-xs hover:underline">0365 490 837</a>
+<main>
+    <!-- LEFT -->
+    <section class="left-panel">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">✅ Chỉ Thị Nghiệp Vụ Cứng</div>
+                <div class="card-sub">Chuẩn mực bắt buộc tuân thủ để nắm quyền chủ động</div>
+            </div>
+            <div class="dir-item">
+                <span class="dir-num" style="color:#fb923c;">01</span>
+                <div class="dir-body"><strong>Xác minh danh tính trước</strong>Xác nhận đúng tên khách nợ trong 3 giây đầu. Nếu người thân nghe máy, chuyển sang kịch bản dấu ngoặc <span class="amber">( )</span>.</div>
+            </div>
+            <div class="dir-item">
+                <span class="dir-num" style="color:#fb923c;">02</span>
+                <div class="dir-body"><strong>Xưng hô chuẩn mực "Tôi - Anh/Chị"</strong>Lịch sự, đĩnh đạc nhưng lạnh lùng. Tuyệt đối không xưng "Em" làm giảm uy thế của tổ chức pháp lý.</div>
+            </div>
+            <div class="dir-item">
+                <span class="dir-num" style="color:#fb923c;">03</span>
+                <div class="dir-body"><strong>Tuyệt đối không khen ngợi</strong>Không khen lịch sử đóng cũ. Đọc số kỳ đóng một cách kỹ thuật để thể hiện Hanmir nắm cực kỳ chắc hồ sơ gốc.</div>
+            </div>
+            <div class="dir-item green-bg">
+                <span class="dir-num" style="color:#34d399;">04</span>
+                <div class="dir-body"><strong>Phương án đóng trước 2 triệu bảo lưu</strong>Đây là điều kiện tiên quyết duy nhất để hoãn tống đạt đơn kiện khởi tố ra pháp luật địa phương.</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title" style="margin-bottom:12px;">🎧 Hotline Liên Hệ Hanmir</div>
+            <div class="hotline-grid">
+                <div class="hotline-item"><span class="hotline-lbl">Hotline 1:</span><a href="tel:0365490837" class="hotline-num">0365 490 837</a></div>
+                <div class="hotline-item"><span class="hotline-lbl">Hotline 2:</span><a href="tel:0978236853" class="hotline-num">0978 236 853</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RIGHT -->
+    <section class="right-panel">
+        <div class="tab-nav">
+            <button class="tab-btn active" id="tabBtnScript" onclick="switchTab('script')">📞 Kịch Bản Đàm Thoại</button>
+            <button class="tab-btn" id="tabBtnObjections" onclick="switchTab('objections')">🛡️ Phản Biện Pháp Lý</button>
+            <button class="tab-btn" id="tabBtnVisual" onclick="switchTab('visual')">⚖️ Ma Trận Tài Chính</button>
+            <button class="tab-btn" id="tabBtnTech" onclick="switchTab('tech')">💡 Kỹ Thuật Đàm Phán</button>
+        </div>
+
+        <div class="tab-content-wrap">
+
+            <!-- TAB 1 -->
+            <div id="tabContentScript" class="tab-pane active">
+                <div class="tab-header">
+                    <div class="tab-title">📄 KỊCH BẢN PHÁP LÝ SONG SONG (CHÍNH CHỦ & NGƯỜI THÂN)</div>
+                    <div class="tab-desc">Đoạn màu trắng: Khách hàng chính thức. Đoạn màu vàng <span class="amber">( )</span>: dùng khi phát hiện người nghe máy là người thân.</div>
+                </div>
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-dot" style="background:#ea580c;"></div><span style="color:#e7e5e4;font-weight:600;">Khách Hàng Nợ</span></div>
+                    <div class="sep-v"></div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div><span style="color:#fbbf24;font-weight:600;">Người Thân Trực Tiếp</span></div>
+                </div>
+
+                <!-- Phần 1 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-orange">👤 Phần 1: Kết Nối, Định Danh & Xác Minh</span>
+                        <span class="section-tone st-orange">🔈 Giọng: Đĩnh đạc, rõ chữ, nghiêm trang</span>
                     </div>
-                    <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
-                        <span class="text-slate-400 text-[10px]">Hotline 2:</span>
-                        <a href="tel:0978236853" class="font-bold text-indigo-400 font-mono text-xs hover:underline">0978 236 853</a>
+                    <div class="content-body">
+                        <p><strong class="nv-label">NV:</strong> "Chào anh/chị <span class="tag-indigo">[HỌ_TÊN_KH]</span>. Tôi là chuyên viên quản lý thuộc bộ phận xử lý nợ của <strong>Công ty Mua bán nợ Hanmir</strong> gọi điện trực tiếp để làm việc cùng anh/chị."</p>
+                        <div class="amber-box"><span class="amber-box-label">↳ Nhánh rẽ — Người thân nghe máy:</span><p>"Chào anh/chị. Tôi là chuyên viên quản lý hồ sơ tại <strong>Công ty Mua bán nợ Hanmir</strong>. Tôi đang liên hệ để trao đổi trực tiếp thông tin hồ sơ nợ quá hạn của ông/bà <strong>[HỌ_TÊN_KH]</strong>. Anh/chị là người thân trực tiếp của ông/bà <strong>[HỌ_TÊN_KH]</strong> đúng không?"</p></div>
+                        <p class="pt-sep"><strong class="nv-label">NV:</strong> "Hợp đồng nợ trước đây của anh/chị tại đơn vị gốc <strong>Mirae Asset</strong> hiện tại đã được chuyển giao quyền sở hữu tài sản nợ hợp pháp sang cho công ty Hanmir theo đúng quy định pháp luật dân sự."</p>
+                        <div class="amber-box"><p><strong>(Người thân):</strong> "Hợp đồng nợ quá hạn lâu năm của ông/bà <strong>[HỌ_TÊN_KH]</strong> tại đơn vị gốc <strong>Mirae Asset</strong> đã được chuyển giao hoàn toàn quyền sở hữu tài sản nợ sang cho công ty Hanmir chúng tôi tiếp nhận thụ lý theo đúng quy trình."</p></div>
+                        <p class="pt-sep"><strong class="nv-label">NV:</strong> "Hệ thống quản lý nợ Hanmir ghi nhận thông tin thực tế: hồ sơ này của anh/chị mới chỉ thanh toán được <span class="tag-indigo">[10 - 30] kỳ đóng</span>, và toàn bộ nghĩa vụ nợ còn lại hiện tại vẫn chưa được giải quyết dứt điểm."</p>
+                        <div class="amber-box"><p><strong>(Người thân):</strong> "Hệ thống ghi nhận hồ sơ này mới chỉ thanh toán được <strong>[10 - 30] kỳ đóng</strong> rồi dừng lại cho đến nay, nghĩa vụ thanh toán vẫn đang bị bỏ lửng và chưa được giải quyết dứt điểm."</p></div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- RIGHT PANEL: Nội dung bài học và kịch bản tương tác -->
-        <section class="flex-1 flex flex-col gap-4 min-w-0 md:overflow-hidden">
-            
-            <!-- Thanh chọn tab -->
-            <div class="bg-slate-950 border border-slate-800 p-1 rounded-xl sm:rounded-2xl shrink-0 shadow-md overflow-x-auto custom-scrollbar flex">
-                <nav class="flex space-x-1 min-w-max w-full" aria-label="Tabs">
-                    <button id="tabBtnScript" onclick="switchTab('script')" class="flex-1 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 bg-indigo-600 text-white shadow whitespace-nowrap">
-                        <i class="fa-solid fa-phone mr-1.5 sm:mr-2"></i> Kịch Bản Đàm Thoại
+                <!-- Phần 2 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-orange">💰 Phần 2: Nêu Bật Thực Trạng Nợ & Áp Lực Dư Nợ</span>
+                        <span class="section-tone st-orange">🔈 Giọng: Nghiêm túc, dứt khoát</span>
+                    </div>
+                    <div class="content-body">
+                        <p><strong class="nv-label">NV:</strong> "Khoản nợ này hiện tại đã trễ hạn kéo dài tới <span class="tag-red">[SỐ_NĂM_TRỄ_NỢ] năm</span>. Do quá hạn quá lâu, tổng nghĩa vụ tài chính tích lũy hiện tại cần xử lý dứt điểm ngay trên hệ thống là <span class="tag-red">[TỔNG_DƯ_NỢ]</span>."</p>
+                        <div class="amber-box"><span class="amber-box-label">↳ Nhánh rẽ — Người thân:</span><p>"Khoản nợ của ông/bà <strong>[HỌ_TÊN_KH]</strong> đã quá hạn kéo dài tới <strong>[SỐ_NĂM_TRỄ_NỢ] năm</strong>. Do chậm trễ, các khoản phí phát sinh đã đẩy tổng dư nợ hiện tại lên tới <strong>[TỔNG_DƯ_NỢ]</strong>. Việc này đang trực tiếp ảnh hưởng đến lịch sử tín dụng chung và các thủ tục xác minh tại địa phương cư trú."</p></div>
+                        <p class="pt-sep"><strong class="nv-label">NV:</strong> "Tôi liên hệ hôm nay để thông báo lộ trình cơ cấu ưu đãi đặc biệt áp dụng <strong>trong vòng 48h tới</strong> trước khi phía Hanmir bắt buộc phải chuyển giao hồ sơ sang bộ phận Tố tụng để làm thủ tục pháp lý theo đúng quy định."</p>
+                        <div class="amber-box"><p><strong>(Người thân):</strong> "Hôm nay tôi liên hệ trực tiếp với gia đình để hướng dẫn phương án phối hợp xử lý khẩn cấp. Phía công ty khuyến khích gia đình đôn đốc khách hàng đăng ký giải pháp cơ cấu <strong>trong vòng 48h tới</strong> để được ghi nhận thiện chí và nhận hỗ trợ tốt nhất."</p></div>
+                    </div>
+                </div>
+
+                <!-- Phần 2.5 -->
+                <div class="section-block violet">
+                    <div class="section-header violet">
+                        <span class="section-label sl-violet">🔍 Phần 2.5: Khai Thác Hoàn Cảnh & Định Hướng Phương Án</span>
+                        <span class="section-tone st-violet">🔈 Giọng: Nhẹ hơn, thăm dò, lắng nghe</span>
+                    </div>
+                    <div class="violet-hint">⚡ MỤC ĐÍCH: Khai thác để chọn đúng phương án đẩy — KH khó khăn → góp 2tr/tháng. KH có điều kiện → tất toán. Dẫn dắt KH tự nghĩ đến nguồn hỗ trợ từ người thân.</div>
+                    <div class="content-body">
+                        <div class="step-lbl" style="margin-top:0;">❓ Bước 1 — Khai thác lý do trễ hạn</div>
+                        <p>"Anh/chị có thể cho tôi biết lý do tại sao khoản nợ này bị gián đoạn và chưa được xử lý trong thời gian dài vừa qua không? Để tôi có cơ sở ghi nhận và đề xuất phương án phù hợp nhất với hoàn cảnh thực tế của mình."</p>
+                        <div class="branch-grid">
+                            <div class="branch-card"><span class="bc-head bc-red">KH nói: Mất việc / thu nhập giảm</span>→ Đẩy <strong class="t-indigo">góp 2tr/tháng</strong>. Nhấn "chỉ cần đóng 2tr trước là giữ được cơ chế, công ty hiểu hoàn cảnh."</div>
+                            <div class="branch-card"><span class="bc-head bc-amber">KH nói: Quên / không nhận thông báo</span>→ Đẩy <strong class="t-emerald">tất toán nhanh</strong>. Nhấn "vậy thì anh/chị có thể xử lý dứt điểm ngay để xóa nợ xấu CIC."</div>
+                            <div class="branch-card"><span class="bc-head bc-slate">KH nói: Không muốn đóng / không liên quan</span>→ Chuyển sang <strong class="t-amber">áp lực pháp lý</strong> Phần 4.</div>
+                        </div>
+                        <div class="step-lbl">📈 Bước 2 — Cập nhật tình hình kinh tế (tạo urgency)</div>
+                        <p>"Tôi hiểu thời gian vừa qua kinh tế chung khó khăn, nhiều người rơi vào hoàn cảnh tương tự anh/chị. Tuy nhiên, hiện nay các ngân hàng và tổ chức tín dụng đang siết chặt rà soát CIC toàn diện hơn trước — bất kỳ hồ sơ nào còn tồn đọng nợ xấu nhóm 5 sẽ bị hệ thống tự động gắn cờ, ảnh hưởng trực tiếp đến khả năng vay vốn, mua trả góp, thậm chí xin việc tại một số đơn vị có yêu cầu xác minh tín dụng. Đây là thời điểm xử lý càng sớm càng có lợi cho anh/chị."</p>
+                        <div class="amber-box"><p><strong>(Người thân):</strong> "Anh/chị chắc cũng biết hiện nay kinh tế khó khăn, ngân hàng siết tín dụng rất chặt. Nợ xấu CIC của ông/bà [HỌ_TÊN_KH] đang ảnh hưởng đến toàn bộ hộ khẩu, kể cả anh/chị nếu có nhu cầu vay vốn trong tương lai. Gia đình nên phối hợp xử lý sớm để bảo vệ quyền lợi chung."</p></div>
+                        <div class="step-lbl">👥 Bước 3 — Dẫn dắt mối quan hệ hỗ trợ (gián tiếp)</div>
+                        <p>"Thực tế nhiều khách hàng trong hoàn cảnh tương tự anh/chị đã thu xếp được khoản đóng trước nhỏ này nhờ người thân trong gia đình hỗ trợ tạm thời — sau đó tự hoàn lại dần. Chỉ 2 triệu đồng ban đầu là đủ để đóng băng toàn bộ hồ sơ pháp lý, tránh mọi phát sinh phức tạp về sau. Anh/chị hiện đang ở cùng hay có thể liên hệ với ai trong gia đình để phối hợp không?"</p>
+                        <div class="violet-hint">⚠️ <strong class="t-violet">Lưu ý NV:</strong> Không hỏi thẳng "anh có ai cho mượn không" — sẽ bị cúp máy. Để KH tự kết nối đến người thân qua câu hỏi mở về "phối hợp". Nếu KH đề cập tên người thân → ghi nhận và chuyển sang nhánh rẽ người thân ngay.</div>
+                        <div class="amber-box"><p><strong>(Người thân — nếu đang nghe máy):</strong> "Gia đình mình đang là người trực tiếp nắm rõ tình hình nhất. Nhiều gia đình trong hoàn cảnh tương tự đã chủ động hỗ trợ khoản nhỏ trước để giữ hồ sơ — sau đó khách hàng tự hoàn lại. 2 triệu đồng hôm nay đổi lấy việc giữ sạch uy tín gia đình là hoàn toàn xứng đáng."</p></div>
+                    </div>
+                </div>
+
+                <!-- Phần 3 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-emerald">🎁 Phần 3: Trình Bày 2 Tùy Chọn & Điều Kiện Tiên Quyết 2 Triệu</span>
+                        <span class="section-tone st-emerald">🔈 Giọng: Thực tế, chuyên nghiệp</span>
+                    </div>
+                    <div class="content-body">
+                        <p style="color:#64748b;font-style:italic;font-size:11px;">*Nhân viên phân tích rõ hai lối thoát tài chính của Hanmir cho khách nợ/người thân:*</p>
+                        <div class="option-grid">
+                            <div class="option-card indigo">
+                                <span class="option-badge indigo">Tùy Chọn 1</span>
+                                <div class="option-title">Cơ Cấu Trả Góp 2tr/Tháng</div>
+                                <div class="option-body">Đăng ký trả dần hàng tháng với số tiền đóng cố định là <strong>2.000.000đ/tháng</strong> cho đến khi hết nợ gốc. Với phương án trả dần này, công ty hỗ trợ <strong>MIỄN GIẢM TỐI ĐA 50% TIỀN LÃI PHẠT</strong> tích lũy.</div>
+                            </div>
+                            <div class="option-card emerald">
+                                <span class="option-badge emerald">Tùy Chọn 2</span>
+                                <div class="option-title">Thanh Lý Gốc (Miễn Lãi 100%)</div>
+                                <div class="option-body">Đóng trước 2 triệu để đóng băng hồ sơ pháp lý. Công ty gia hạn thêm 5 đến 7 ngày tiếp theo để chuẩn bị phần gốc còn lại. Khi tất toán thành công, được <strong>MIỄN GIẢM 100% TOÀN BỘ TIỀN LÃI VÀ PHÍ PHẠT</strong>, xóa sạch nợ xấu CIC.</div>
+                            </div>
+                        </div>
+                        <p class="pt-sep"><strong class="nv-label">NV:</strong> "Dù anh/chị chọn phương án 1 hay phương án 2, điều kiện tiên quyết bắt buộc là anh/chị phải <strong>hoàn thành khoản đóng trước thiện chí tối thiểu 2.000.000đ trong vòng 48h tới</strong> để làm căn cứ đóng băng tạm thời hồ sơ pháp lý trên hệ thống."</p>
+                        <div class="amber-box"><span class="amber-box-label">↳ Nhánh rẽ — Người thân:</span><p><strong>(Người thân):</strong> "Dù gia đình chọn đại diện tất toán gốc hay đôn đốc khách hàng đóng góp, hệ thống yêu cầu bắt buộc phải có <strong>lệnh nộp đóng trước thiện chí tối thiểu 2.000.000đ ghi nhận trong 48h</strong>. Khoản đóng trước này được trừ thẳng vào nợ gốc của ông/bà <strong>[HỌ_TÊN_KH]</strong> để làm căn cứ pháp lý giữ hồ sơ hỗ trợ lại văn phòng, không gửi chuyển giao về địa phương."</p></div>
+                    </div>
+                </div>
+
+                <!-- Phần 4 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-amber">⚖️ Phần 4: Phân Tích Rủi Ro Tín Dụng & Khởi Kiện</span>
+                        <span class="section-tone st-amber">🔊 Giọng: Chuyên nghiệp, khách quan, phân tích rõ ràng</span>
+                    </div>
+                    <div class="content-body">
+                        <p><strong class="nv-label">NV:</strong> "Anh/chị vui lòng lưu ý, đây là khoản nợ xấu lâu năm đã thuộc quyền sở hữu của Hanmir. Nếu anh/chị không tận dụng phương án hỗ trợ trả góp 2 triệu này trước hạn chót 48h tới, phía công ty sẽ phải chuyển giao hồ sơ sang quy trình tố tụng thông thường để yêu cầu thu hồi <strong>TỔNG NỢ [TỔNG_DƯ_NỢ] TRONG 1 LẦN DUY NHẤT</strong>."</p>
+                        <div class="amber-box"><span class="amber-box-label">↳ Nhánh rẽ — Người thân:</span><p><strong>(Người thân):</strong> "Gia đình cần lưu ý tính chất quan trọng của hồ sơ này. Nếu gia đình và khách hàng không phối hợp đóng trước 2 triệu để tạm hoãn xử lý trong 48h tới, bộ phận pháp lý sẽ tiến hành gửi thông báo yêu cầu thực hiện nghĩa vụ nợ gửi về Ủy ban nhân dân xã/phường cư trú và cơ quan làm việc tại <strong>[ĐỊA_CHỈ]</strong> để xác minh điều kiện thi hành nghĩa vụ tài chính <strong>TỔNG NỢ [TỔNG_DƯ_NỢ] 1 LẦN</strong>."</p></div>
+                        <p class="pt-sep"><strong class="nv-label">NV:</strong> "Khi vụ việc chuyển sang giai đoạn xử lý chính thức, các khoản chi phí phát sinh như án phí tố tụng và lãi phạt quá hạn tích lũy sẽ do người vay gánh chịu, đồng thời điểm nợ xấu nhóm 5 trên CIC sẽ bị phong tỏa vĩnh viễn, ảnh hưởng lớn đến việc giao dịch tài chính sau này. Tôi sẽ gửi thông tin tài khoản chuyên thu chính thức của Hanmir qua Zalo. Anh/chị thu xếp nộp trước 2 triệu trong ngày hôm nay để tôi đăng ký bảo lưu hỗ trợ kịp thời cho mình nhé?"</p>
+                        <div class="amber-box"><p><strong>(Người thân):</strong> "Lúc đó, các cơ quan chức năng sẽ phải tiến hành xác minh thu nhập thực tế hoặc tài sản thuộc sở hữu của khách hàng tại địa phương theo đúng trình tự. Việc gia đình chậm phản hồi giải pháp thiện chí ngày hôm nay sẽ được đính kèm hồ sơ xử lý hành chính. Tôi sẽ gửi thông tin tài khoản chuyên thu của Hanmir. Anh/chị đại diện gia đình thu xếp khoản đóng trước 2 triệu ngay hôm nay để giữ lại hồ sơ hỗ trợ tại văn phòng, tránh phát sinh các bước xác minh không đáng có tại địa phương nhé?"</p></div>
+                    </div>
+                </div>
+            </div><!-- /tab script -->
+
+            <!-- TAB 2 -->
+            <div id="tabContentObjections" class="tab-pane">
+                <div class="tab-header">
+                    <div class="tab-title">🛡️ BỘ PHẢN SÁT TỪ CHỐI CHÍ MẠNG CỦA HANMIR</div>
+                    <div class="tab-desc">Sử dụng lý luận pháp lý đanh thép để bẻ gãy mọi lý lẽ trốn nợ của khách hàng và người thân nhưng vẫn giữ thế chủ động.</div>
+                </div>
+                <div class="obj-item">
+                    <button class="obj-btn" onclick="toggleObjection(1)">
+                        <div class="obj-btn-left"><span class="obj-num">1</span>"Tôi không ký kết hay vay nợ gì của bên Hanmir, tôi chỉ biết Mirae Asset!"</div>
+                        <span class="obj-chevron" id="objIcon1">▾</span>
                     </button>
-                    <button id="tabBtnObjections" onclick="switchTab('objections')" class="flex-1 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-400 hover:text-white hover:bg-slate-900 whitespace-nowrap">
-                        <i class="fa-solid fa-shield-halved mr-1.5 sm:mr-2"></i> Phản Biện Pháp Lý
+                    <div class="obj-answer" id="objAns1">
+                        <div class="obj-answer-label">⚖️ PHẢN BIỆN CHUYÊN NGHIỆP:</div>
+                        <p>"Thưa anh/chị, căn cứ theo <strong>Điều 365 Bộ luật Dân sự</strong>, tổ chức tín dụng có toàn quyền bán hoặc chuyển nhượng quyền thu hồi nợ cho bên thứ ba mà không cần sự đồng ý của khách hàng. Toàn bộ hồ sơ nợ đã chuyển nhượng hợp pháp sang Hanmir. Trạng thái nợ xấu nhóm 5 trên hệ thống CIC quốc gia của anh/chị hiện nay chỉ được xóa bỏ khi anh/chị thực hiện tất toán thành công với Hanmir."</p>
+                        <div class="amber-left"><strong>(Người thân):</strong> "Thưa anh/chị, việc mua bán chuyển nhượng nợ được thực hiện bằng văn bản đúng pháp luật. Ông/bà [HỌ_TÊN_KH] đã quá hạn quá lâu, Hanmir là chủ sở hữu hợp pháp duy nhất hiện nay. Anh/chị là người thân hãy nhanh chóng đôn đốc khách hàng hợp tác giải quyết sớm."</div>
+                    </div>
+                </div>
+                <div class="obj-item">
+                    <button class="obj-btn" onclick="toggleObjection(2)">
+                        <div class="obj-btn-left"><span class="obj-num">2</span>"Đang thất nghiệp, khó khăn, 2 triệu cũng không có đóng!"</div>
+                        <span class="obj-chevron" id="objIcon2">▾</span>
                     </button>
-                    <button id="tabBtnVisual" onclick="switchTab('visual')" class="flex-1 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-400 hover:text-white hover:bg-slate-900 whitespace-nowrap">
-                        <i class="fa-solid fa-scale-unbalanced-flip mr-1.5 sm:mr-2"></i> Ma Trận Tài Chính
+                    <div class="obj-answer" id="objAns2">
+                        <div class="obj-answer-label">🧠 GIẢI THÍCH HỢP TÌNH HỢP LÝ:</div>
+                        <p>"Chính vì hoàn cảnh thực tế khó khăn nên công ty mới hỗ trợ mở gói cơ cấu đóng linh hoạt chỉ <strong>2.000.000đ/tháng</strong>. Chứ nếu để hồ sơ chuyển sang quy trình tố tụng thu hồi toàn bộ số tiền cùng một lúc, anh/chị sẽ phải gánh chịu thêm phần án phí rất lớn từ cơ quan chức năng. Anh/chị nên ưu tiên thu xếp mượn tạm 2 triệu đóng trước hạn chót để hoãn thủ tục tố tụng và bảo vệ điểm tín dụng cá nhân trên hệ thống."</p>
+                        <div class="amber-left"><strong>(Người thân):</strong> "Chính vì biết khách hàng khó khăn nên chúng tôi mới hỗ trợ gia đình phương án chia nhỏ kỳ đóng chỉ 2 triệu/tháng. Anh/chị là người thân trực tiếp hãy giúp đỡ khách hàng đóng khoản đóng trước 2 triệu này trong 48h tới để đóng băng hồ sơ pháp lý, tránh bị cưỡng chế thu hồi 1 lần."</div>
+                    </div>
+                </div>
+                <div class="obj-item">
+                    <button class="obj-btn" onclick="toggleObjection(3)">
+                        <div class="obj-btn-left"><span class="obj-num">3</span>"Tôi không liên quan, ai vay thì các người đi mà tìm người đó!"</div>
+                        <span class="obj-chevron" id="objIcon3">▾</span>
                     </button>
-                </nav>
-            </div>
-
-            <!-- CONTAINER NỘI DUNG CHI TIẾT -->
-            <div class="flex-1 md:overflow-y-auto custom-scrollbar bg-slate-950 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl relative min-h-0">
-                
-                <!-- TAB 1: KỊCH BẢN ĐÀM THOẠI SONG SONG -->
-                <div id="tabContentScript" class="tab-pane space-y-5">
-                    <div class="border-b border-slate-800 pb-3">
-                        <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-file-invoice text-indigo-500"></i> KỊCH BẢN PHÁP LÝ SONG SONG (CHÍNH CHỦ & NGƯỜI THÂN)
-                        </h2>
-                        <p class="text-xs text-slate-400 mt-1">Hướng dẫn: Đoạn màu trắng dành cho Khách hàng chính thức. Đoạn màu vàng trong dấu ngoặc <span class="text-amber-400 font-bold">( )</span> dùng ngay khi phát hiện người nghe máy là người thân trực tiếp.</p>
+                    <div class="obj-answer" id="objAns3">
+                        <div class="obj-answer-label">✊ RĂN ĐE PHÁP LUẬT CHUẨN MỰC (Dành riêng cho Người thân):</div>
+                        <p>"Thưa anh/chị, đúng là anh/chị không đứng tên ký hợp đồng vay. Tuy nhiên, khi cơ quan pháp luật thụ lý đơn kiện, họ sẽ thực hiện gửi giấy triệu tập, xác minh lý lịch nhân thân khách hàng tại địa chỉ hộ khẩu cư trú của gia đình. Đồng thời, lý lịch nợ xấu CIC nhóm 5 của khách hàng sẽ bị khóa vĩnh viễn, ảnh hưởng trực tiếp đến khả năng vay thế chấp, mua trả góp của mọi thành viên chung hộ khẩu sau này. Việc gia đình hỗ trợ đóng trước 2 triệu hôm nay chính là bảo vệ uy tín và quyền lợi sát sườn của chính gia đình mình."</p>
                     </div>
+                </div>
+            </div><!-- /tab objections -->
 
-                    <!-- Chỉ dẫn trực quan màu sắc -->
-                    <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-xl flex flex-row items-center justify-around gap-2 text-[10px] sm:text-xs">
-                        <div class="flex items-center gap-1.5">
-                            <span class="w-3 h-3 rounded bg-indigo-500 inline-block shrink-0"></span>
-                            <span class="text-slate-300 font-semibold">Khách Hàng Nợ</span>
+            <!-- TAB 3 -->
+            <div id="tabContentVisual" class="tab-pane">
+                <div class="tab-header">
+                    <div class="tab-title">📊 MA TRẬN SO SÁNH QUYẾT ĐỊNH CỦA KHÁCH NỢ & GIA ĐÌNH</div>
+                    <div class="tab-desc">Phân tích trực quan lợi ích sát sườn để nhân viên dùng dồn ép khách nợ và người thân đồng ý giải pháp đóng trước 2 triệu ngay lập tức.</div>
+                </div>
+                <div class="matrix-grid">
+                    <div class="matrix-col red">
+                        <div class="matrix-deco red"></div>
+                        <div><span class="matrix-badge red">Trốn tránh / Không hợp tác</span><div class="matrix-title">⚖️ Kịch Bản Bị Khởi Kiện</div></div>
+                        <div class="matrix-rows">
+                            <div class="matrix-row"><span class="matrix-row-lbl">Nghĩa vụ đóng:</span><span class="matrix-row-val mrv-red">100% Tổng Dư Nợ 1 Lần</span></div>
+                            <div class="matrix-row"><span class="matrix-row-lbl">Chi phí phát sinh:</span><span class="matrix-row-val mrv-red">Toàn bộ Án phí + Lãi quá hạn</span></div>
+                            <div class="matrix-row"><span class="matrix-row-lbl">Hậu quả nhân thân:</span><span class="matrix-row-val mrv-red">Tống đạt đơn tố tụng về địa phương & nơi làm việc</span></div>
                         </div>
-                        <div class="h-4 w-[1px] bg-slate-800"></div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="w-3 h-3 rounded bg-amber-500 inline-block shrink-0"></span>
-                            <span class="text-amber-400 font-semibold">Người Thân Trực Tiếp</span>
-                        </div>
+                        <div class="matrix-footer red">THIỆT HẠI DANH DỰ GIA ĐÌNH VÀ CƯỠNG CHẾ CIC</div>
                     </div>
-
-                    <!-- Phần 1 -->
-                    <div class="space-y-3 bg-slate-900/60 p-4 sm:p-5 rounded-xl border border-slate-800">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-2 gap-1">
-                            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-user-check"></i> Phần 1: Kết Nối, Định Danh & Xác Minh
-                            </span>
-                            <span class="text-[10px] text-indigo-400 italic font-mono"><i class="fa-solid fa-volume-low"></i> Giọng: Đĩnh đạc, rõ chữ, nghiêm trang</span>
+                    <div class="matrix-col indigo">
+                        <div class="matrix-deco indigo"></div>
+                        <div><span class="matrix-badge indigo">Giảm tải áp lực</span><div class="matrix-title">📅 Cơ Cấu Góp 2tr/Tháng</div></div>
+                        <div class="matrix-rows">
+                            <div class="matrix-row"><span class="matrix-row-lbl">đóng trước giữ cơ chế:</span><span class="matrix-row-val mrv-indigo">2.000.000đ trong 48h</span></div>
+                            <div class="matrix-row"><span class="matrix-row-lbl">Phương thức tiếp:</span><span class="matrix-row-val mrv-white">Đóng đều 2 triệu mỗi tháng</span></div>
+                            <div class="matrix-row"><span class="matrix-row-lbl">Ưu đãi áp dụng:</span><span class="matrix-row-val mrv-indigo">Miễn giảm tối đa 50% tiền lãi phạt</span></div>
                         </div>
-                        
-                        <div class="text-xs sm:text-sm leading-relaxed space-y-4">
-                            <p class="text-slate-300">
-                                <strong class="text-indigo-400 uppercase">Nhân viên (NV):</strong> "Chào anh/chị 
-                                <span class="bg-indigo-950 text-indigo-400 font-bold px-1.5 py-0.5 rounded border border-indigo-500/30 font-mono inline-block text-[11px] uppercase">[HỌ_TÊN_KH]</span>. 
-                                Tôi là cán bộ quản lý thuộc bộ phận xử lý nợ của **Công ty Mua bán nợ Hanmir** gọi điện trực tiếp để làm việc cùng anh/chị."
-                            </p>
-                            
-                            <!-- Nhánh rẽ cho Người Thân -->
-                            <div class="p-3 sm:p-4 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-2">
-                                <span class="font-extrabold text-[10px] uppercase tracking-wider block text-amber-400">
-                                    <i class="fa-solid fa-people-arrows"></i> (Nhánh rẽ khi xác định là Người thân trực tiếp nghe máy):
-                                </span>
-                                <p class="italic text-xs sm:text-sm">
-                                    "Chào anh/chị. Tôi là cán bộ quản lý hồ sơ tại **Công ty Mua bán nợ Hanmir**. Tôi đang liên hệ để trao đổi trực tiếp thông tin hồ sơ nợ quá hạn của ông/bà <strong>[HỌ_TÊN_KH]</strong>. Anh/chị là người thân trực tiếp của ông/bà <strong>[HỌ_TÊN_KH]</strong> đúng không?"
-                                </p>
-                            </div>
-
-                            <p class="text-slate-300 border-t border-slate-800/80 pt-3">
-                                <strong class="text-indigo-400 uppercase">NV:</strong> "Hợp đồng nợ trước đây của anh/chị tại đơn vị gốc **Mirae Asset** hiện tại đã được chuyển giao quyền sở hữu tài sản nợ hợp pháp sang cho công ty Hanmir theo đúng quy định pháp luật dân sự."
-                            </p>
-
-                            <!-- Nhánh rẽ người thân -->
-                            <div class="p-3 sm:p-4 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-2">
-                                <p class="italic text-xs sm:text-sm">
-                                    <strong>(Người thân):</strong> "Hợp đồng nợ quá hạn lâu năm của ông/bà <strong>[HỌ_TÊN_KH]</strong> tại đơn vị gốc **Mirae Asset** đã được chuyển giao hoàn toàn quyền sở hữu tài sản nợ sang cho công ty Hanmir chúng tôi tiếp nhận thụ lý theo đúng quy trình."
-                                </p>
-                            </div>
-
-                            <p class="text-slate-300 border-t border-slate-800/80 pt-3">
-                                <strong class="text-indigo-400 uppercase">NV:</strong> "Hệ thống quản lý nợ Hanmir ghi nhận thông tin thực tế: hồ sơ này của anh/chị mới chỉ thanh toán được
-                                <span class="bg-indigo-950 text-indigo-400 font-bold px-1.5 py-0.5 rounded border border-indigo-500/30 font-mono inline-block text-[11px] uppercase">[10 - 30] kỳ đóng</span>, 
-                                và toàn bộ nghĩa vụ nợ còn lại hiện tại vẫn chưa được giải quyết dứt điểm."
-                            </p>
-
-                            <!-- Nhánh rẽ người thân -->
-                            <div class="p-3 sm:p-4 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-2">
-                                <p class="italic text-xs sm:text-sm">
-                                    <strong>(Người thân):</strong> "Hệ thống ghi nhận hồ sơ này mới chỉ thanh toán được <strong>[10 - 30] kỳ đóng</strong> rồi dừng lại cho đến nay, nghĩa vụ thanh toán vẫn đang bị bỏ lửng và chưa được giải quyết dứt điểm."
-                                </p>
-                            </div>
-                        </div>
+                        <div class="matrix-footer indigo">PHÙ HỢP VỚI THU NHẬP VÀ ĐANG KHÓ KHĂN</div>
                     </div>
-
-                    <!-- Phần 2 -->
-                    <div class="space-y-3 bg-slate-900/60 p-4 sm:p-5 rounded-xl border border-slate-800">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-2 gap-1">
-                            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-file-invoice-dollar"></i> Phần 2: Nêu Bật Thực Trạng Nợ & Áp Lực Dư Nợ
-                            </span>
-                            <span class="text-[10px] text-indigo-400 italic font-mono"><i class="fa-solid fa-volume-low"></i> Giọng: Nghiêm túc, dứt khoát, không kỳ kèo dài dòng</span>
+                    <div class="matrix-col emerald">
+                        <div class="matrix-deco emerald"></div>
+                        <div><span class="matrix-badge emerald">Tất toán nhanh</span><div class="matrix-title">🧾 Thanh Lý Gốc (Miễn Lãi)</div></div>
+                        <div class="matrix-rows">
+                            <div class="matrix-row"><span class="matrix-row-lbl">đóng trước giữ cơ chế:</span><span class="matrix-row-val mrv-emerald">2.000.000đ trong 48h</span></div>
+                            <div class="matrix-row"><span class="matrix-row-lbl">Hạn đóng nốt gốc:</span><span class="matrix-row-val mrv-white">Gia hạn thêm 5 - 7 ngày</span></div>
+                            <div class="matrix-row"><span class="matrix-row-lbl">Ưu đãi tối đa:</span><span class="matrix-row-val mrv-emerald">Miễn giảm 100% tiền lãi phạt</span></div>
                         </div>
-                        
-                        <div class="text-xs sm:text-sm leading-relaxed space-y-4">
-                            <p class="text-slate-300">
-                                <strong class="text-indigo-400 uppercase">NV:</strong> "Khoản nợ này hiện tại đã trễ hạn kéo dài tới 
-                                <span class="bg-red-950 text-red-400 font-bold px-1.5 py-0.5 rounded border border-red-500/30 font-mono inline-block text-[11px]">[SỐ_NĂM_TRỄ_NỢ] năm</span>. 
-                                Do quá hạn quá lâu, tổng nghĩa vụ tài chính tích lũy hiện tại cần xử lý dứt điểm ngay trên hệ thống là 
-                                <span class="bg-red-950 text-red-400 font-bold px-1.5 py-0.5 rounded border border-red-500/30 font-mono inline-block text-[11px]">[TỔNG_DƯ_NỢ]</span>."
-                            </p>
+                        <div class="matrix-footer emerald">XÓA NỢ XẤU SAU 5 NĂM, DƯ NỢ CIC VỀ 0 – 1 SỐ NGÂN HÀNG CHO VAY LẠI</div>
+                    </div>
+                </div>
+            </div><!-- /tab visual -->
 
-                            <!-- Nhánh rẽ người thân -->
-                            <div class="p-3 sm:p-4 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-2">
-                                <span class="font-extrabold text-[10px] uppercase tracking-wider block text-amber-400">
-                                    <i class="fa-solid fa-people-arrows"></i> (Nhánh rẽ khi nói với Người thân):
-                                </span>
-                                <p class="italic text-xs sm:text-sm">
-                                    "Khoản nợ của ông/bà <strong>[HỌ_TÊN_KH]</strong> đã quá hạn kéo dài tới <strong>[SỐ_NĂM_TRỄ_NỢ] năm</strong>. Do chậm trễ, các khoản phí phát sinh đã đẩy tổng dư nợ hiện tại lên tới <strong>[TỔNG_DƯ_NỢ]</strong>. Việc này đang trực tiếp ảnh hưởng đến lịch sử tín dụng chung và các thủ tục xác minh tại địa phương cư trú."
-                                </p>
+            <!-- TAB 4: Kỹ Thuật Đàm Phán -->
+            <div id="tabContentTech" class="tab-pane">
+                <div class="tab-header">
+                    <div class="tab-title">💡 5 KỸ THUẬT CHỐT THANH LÝ THỰC CHIẾN (KÈM VÍ DỤ MẪU)</div>
+                    <div class="tab-desc">Nguyên tắc cốt lõi: Giữ thái độ đĩnh đạc, lạnh lùng. Tuyệt đối không dùng các từ ngữ nhún nhường làm mất uy thế chuyên viên quản lý nợ. Áp lực tâm lý phải được duy trì liên tục.</div>
+                </div>
+
+                <!-- 1 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-orange">1️⃣ Quy tắc "3 Lựa Chọn" (Áp đặt khung thời gian)</span>
+                    </div>
+                    <div class="content-body">
+                        <p>Tuyệt đối không đưa ngay phương án miễn giảm 100% lãi từ đầu. Khách hàng sẽ nảy sinh tâm lý ỷ lại, cho rằng công ty đang cần thu hồi nên dễ dãi, dẫn đến việc khất lần hoặc lật lọng. Nhân viên cần đưa ra 3 mốc thời gian kèm tỷ lệ giảm dần để khách hàng tự nhận thấy sự cấp bách.</p>
+                        <div class="matrix-grid" style="margin-top:12px; margin-bottom: 12px;">
+                            <div class="matrix-col emerald">
+                                <div><span class="matrix-badge emerald">Tối Ưu</span><div class="matrix-title">Giảm 100% Lãi Phạt</div></div>
+                                <div class="matrix-rows"><div class="matrix-row"><span class="matrix-row-lbl">Thời hạn:</span><span class="matrix-row-val mrv-emerald">Thanh toán trong hôm nay</span></div></div>
                             </div>
-
-                            <p class="text-slate-300 border-t border-slate-800/80 pt-3">
-                                <strong class="text-indigo-400 uppercase">NV:</strong> "Tôi liên hệ hôm nay để thông báo lộ trình cơ cấu ưu đãi đặc biệt áp dụng **trong vòng 48h tới** trước khi phía Hanmir bắt buộc phải chuyển giao hồ sơ sang bộ phận Tố tụng để làm thủ tục pháp lý theo đúng quy định."
-                            </p>
-
-                            <!-- Nhánh rẽ người thân -->
-                            <div class="p-3 sm:p-4 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-2">
-                                <p class="italic text-xs sm:text-sm">
-                                    <strong>(Người thân):</strong> "Hôm nay tôi liên hệ trực tiếp với gia đình để hướng dẫn phương án phối hợp xử lý khẩn cấp. Phía công ty khuyến khích gia đình đôn đốc khách hàng đăng ký giải pháp cơ cấu **trong vòng 48h tới** để được ghi nhận thiện chí và nhận hỗ trợ tốt nhất."
-                                </p>
+                            <div class="matrix-col orange">
+                                <div><span class="matrix-badge orange">Trung Bình</span><div class="matrix-title">Giảm 70% Lãi Phạt</div></div>
+                                <div class="matrix-rows"><div class="matrix-row"><span class="matrix-row-lbl">Thời hạn:</span><span class="matrix-row-val mrv-orange">Trong vòng 3 ngày</span></div></div>
                             </div>
+                            <div class="matrix-col red">
+                                <div><span class="matrix-badge red">Cơ Bản</span><div class="matrix-title">Giảm 50% Lãi Phạt</div></div>
+                                <div class="matrix-rows"><div class="matrix-row"><span class="matrix-row-lbl">Thời hạn:</span><span class="matrix-row-val mrv-red">Trong vòng 1 tuần</span></div></div>
+                            </div>
+                        </div>
+                        <div class="amber-box">
+                            <span class="amber-box-label">🗣️ Ví dụ thực chiến (Hội thoại ép khung):</span>
+                            <p><strong class="nv-label">NV:</strong> "Hệ thống Hanmir hiện chỉ đang mở 3 mốc thời gian xử lý cho hồ sơ của anh/chị. Nếu anh/chị thu xếp tất toán dứt điểm ngay trong hôm nay trước 15h, công ty hỗ trợ xóa 100% toàn bộ lãi phạt. Nếu kéo dài sang ngày thứ 3, mức hỗ trợ giảm xuống còn 70%. Sau 1 tuần, anh/chị chỉ còn được hỗ trợ 50% và toàn bộ chi phí xác minh địa phương anh/chị phải tự chịu. Anh/chị quyết định chọn mốc thời gian nào để tôi ghi nhận vào biên bản?"</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Phần 2.5: Khai thác lý do trễ hạn & tình hình -->
-                    <div class="space-y-3 bg-slate-900/60 p-4 sm:p-5 rounded-xl border border-violet-800/40">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-violet-800/30 pb-2 gap-1">
-                            <span class="text-xs font-bold text-violet-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-magnifying-glass-chart"></i> Phần 2.5: Khai Thác Hoàn Cảnh & Định Hướng Phương Án
-                            </span>
-                            <span class="text-[10px] text-violet-400 italic font-mono"><i class="fa-solid fa-volume-low"></i> Giọng: Nhẹ hơn, thăm dò, lắng nghe</span>
-                        </div>
-
-                        <div class="p-2.5 bg-violet-500/5 border border-violet-500/20 rounded-lg text-[10px] sm:text-[11px] text-violet-300 font-semibold">
-                            ⚡ MỤC ĐÍCH: Khai thác để chọn đúng phương án đẩy — Nếu KH khó khăn → đẩy góp 2tr/tháng. Nếu KH có điều kiện → đẩy tất toán. Đồng thời dẫn dắt KH tự nghĩ đến nguồn hỗ trợ từ người thân.
-                        </div>
-
-                        <div class="text-xs sm:text-sm leading-relaxed space-y-4">
-
-                            <!-- Khai thác lý do trễ hạn -->
-                            <div class="space-y-2">
-                                <p class="text-[11px] font-bold text-violet-400 uppercase tracking-wide flex items-center gap-1.5"><i class="fa-solid fa-circle-question"></i> Bước 1 — Khai thác lý do trễ hạn</p>
-                                <p class="text-slate-300">"Anh/chị có thể cho tôi biết lý do tại sao khoản nợ này bị gián đoạn và chưa được xử lý trong thời gian dài vừa qua không? Để tôi có cơ sở ghi nhận và đề xuất phương án phù hợp nhất với hoàn cảnh thực tế của mình."</p>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-                                    <div class="p-2.5 bg-slate-950 border border-slate-700 rounded-lg text-[10px] text-slate-400">
-                                        <span class="text-red-400 font-bold block mb-1">KH nói: Mất việc / thu nhập giảm</span>
-                                        → Đẩy <strong class="text-indigo-400">góp 2tr/tháng</strong>. Nhấn "chỉ cần đóng 2tr trước là giữ được cơ chế, công ty hiểu hoàn cảnh."
-                                    </div>
-                                    <div class="p-2.5 bg-slate-950 border border-slate-700 rounded-lg text-[10px] text-slate-400">
-                                        <span class="text-amber-400 font-bold block mb-1">KH nói: Quên / không nhận được thông báo</span>
-                                        → Đẩy <strong class="text-emerald-400">tất toán nhanh</strong>. Nhấn "vậy thì anh/chị có thể xử lý dứt điểm ngay để xóa nợ xấu CIC."
-                                    </div>
-                                    <div class="p-2.5 bg-slate-950 border border-slate-700 rounded-lg text-[10px] text-slate-400">
-                                        <span class="text-slate-300 font-bold block mb-1">KH nói: Không muốn đóng / không liên quan</span>
-                                        → Chuyển sang <strong class="text-amber-400">kịch bản áp lực pháp lý</strong> Phần 4.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Tình hình kinh tế -->
-                            <div class="space-y-2 border-t border-slate-800/80 pt-3">
-                                <p class="text-[11px] font-bold text-violet-400 uppercase tracking-wide flex items-center gap-1.5"><i class="fa-solid fa-chart-line"></i> Bước 2 — Cập nhật tình hình kinh tế (tạo urgency)</p>
-                                <p class="text-slate-300">"Tôi hiểu thời gian vừa qua kinh tế chung khó khăn, nhiều người rơi vào hoàn cảnh tương tự anh/chị. Tuy nhiên, hiện nay các ngân hàng và tổ chức tín dụng đang siết chặt rà soát CIC toàn diện hơn trước — bất kỳ hồ sơ nào còn tồn đọng nợ xấu nhóm 5 sẽ bị hệ thống tự động gắn cờ, ảnh hưởng trực tiếp đến khả năng vay vốn, mua trả góp, thậm chí xin việc tại một số đơn vị có yêu cầu xác minh tín dụng. Đây là thời điểm xử lý càng sớm càng có lợi cho anh/chị."</p>
-                                <div class="p-3 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-1">
-                                    <p class="italic text-xs sm:text-sm"><strong>(Người thân):</strong> "Anh/chị chắc cũng biết hiện nay kinh tế khó khăn, ngân hàng siết tín dụng rất chặt. Nợ xấu CIC của ông/bà [HỌ_TÊN_KH] đang ảnh hưởng đến toàn bộ hộ khẩu, kể cả anh/chị nếu có nhu cầu vay vốn trong tương lai. Gia đình nên phối hợp xử lý sớm để bảo vệ quyền lợi chung."</p>
-                                </div>
-                            </div>
-
-                            <!-- Khai thác mối quan hệ -->
-                            <div class="space-y-2 border-t border-slate-800/80 pt-3">
-                                <p class="text-[11px] font-bold text-violet-400 uppercase tracking-wide flex items-center gap-1.5"><i class="fa-solid fa-people-group"></i> Bước 3 — Dẫn dắt mối quan hệ hỗ trợ (gián tiếp)</p>
-                                <p class="text-slate-300">"Thực tế nhiều khách hàng trong hoàn cảnh tương tự anh/chị đã thu xếp được khoản đóng trước nhỏ này nhờ người thân trong gia đình hỗ trợ tạm thời — sau đó tự hoàn lại dần. Chỉ 2 triệu đồng ban đầu là đủ để đóng băng toàn bộ hồ sơ pháp lý, tránh mọi phát sinh phức tạp về sau. Anh/chị hiện đang ở cùng hay có thể liên hệ với ai trong gia đình để phối hợp không?"</p>
-                                <div class="p-2.5 bg-violet-500/5 border border-violet-500/20 rounded-lg text-[10px] sm:text-[11px] text-violet-300">
-                                    <strong class="text-violet-400">Lưu ý NV:</strong> Không hỏi thẳng "anh có ai cho mượn không" — sẽ bị cúp máy. Để KH tự kết nối đến người thân qua câu hỏi mở về "phối hợp". Nếu KH đề cập tên người thân → ghi nhận và chuyển sang nhánh rẽ người thân ngay.
-                                </div>
-                                <div class="p-3 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-1">
-                                    <p class="italic text-xs sm:text-sm"><strong>(Người thân — nếu đang nghe máy):</strong> "Gia đình mình đang là người trực tiếp nắm rõ tình hình nhất. Nhiều gia đình trong hoàn cảnh tương tự đã chủ động hỗ trợ khoản nhỏ trước để giữ hồ sơ — sau đó khách hàng tự hoàn lại. 2 triệu đồng hôm nay đổi lấy việc giữ sạch uy tín gia đình là hoàn toàn xứng đáng."</p>
-                                </div>
-                            </div>
-
-                        </div>
+                <!-- 2 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-orange">2️⃣ Kỹ thuật "Thả mồi" (Rút ngắn thời gian & Tăng số thu)</span>
                     </div>
-
-                    <!-- Phần 3 -->
-                    <div class="space-y-3 bg-slate-900/60 p-4 sm:p-5 rounded-xl border border-slate-800">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-2 gap-1">
-                            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-gift"></i> Phần 3: Trình Bày 2 Tùy Chọn & Điều Kiện Tiên Quyết 2 Triệu
-                            </span>
-                            <span class="text-[10px] text-emerald-400 italic font-mono"><i class="fa-solid fa-volume-low"></i> Giọng: Thực tế, chuyên nghiệp</span>
-                        </div>
-                        
-                        <div class="text-xs sm:text-sm leading-relaxed space-y-4">
-                            <p class="text-slate-400 font-semibold text-[11px] italic">
-                                *Nhân viên phân tích rõ hai lối thoát tài chính của Hanmir cho khách nợ/người thân:*
-                            </p>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="bg-slate-950 p-4 rounded-xl border border-indigo-500/20">
-                                    <span class="bg-indigo-500/10 text-indigo-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-indigo-500/30 uppercase font-mono">Tùy Chọn 1</span>
-                                    <h4 class="font-bold text-white text-xs mt-1">Cơ Cấu Trả Góp 2tr/Tháng</h4>
-                                    <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">
-                                        Đăng ký trả dần hàng tháng với số tiền đóng cố định là <strong>2.000.000đ/tháng</strong> cho đến khi hết nợ gốc. Với phương án trả dần này, công ty hỗ trợ <strong>MIỄN GIẢM TỐI ĐA 50% TIỀN LÃI PHẠT</strong> tích lũy.
-                                    </p>
-                                </div>
-                                <div class="bg-slate-950 p-4 rounded-xl border border-emerald-500/20">
-                                    <span class="bg-emerald-500/10 text-emerald-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-emerald-500/30 uppercase font-mono">Tùy Chọn 2</span>
-                                    <h4 class="font-bold text-white text-xs mt-1">Thanh Lý Gốc (Miễn Lãi 100%)</h4>
-                                    <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">
-                                        Đóng trước 2 triệu để đóng băng hồ sơ pháp lý. Công ty gia hạn thêm 5 đến 7 ngày tiếp theo để chuẩn bị phần gốc còn lại. Khi tất toán thành công, được <strong>MIỄN GIẢM 100% TOÀN BỘ TIỀN LÃI VÀ PHÍ PHẠT</strong>, xóa sạch nợ xấu CIC.
-                                    </p>
+                    <div class="content-body">
+                        <p>Kỹ thuật này dùng để đánh vào lòng tham và sự tiếc nuối của khách hàng. Khi khách hàng đã đồng ý một phương án cơ bản, nhân viên sẽ sử dụng một "ngoại lệ sát giờ" để ép khách hàng xoay tiền ngay lập tức hoặc đóng với số tiền lớn hơn dự kiến.</p>
+                        <div class="option-grid">
+                            <div class="option-card orange">
+                                <span class="option-badge orange">Tình huống 1: Ép rút ngắn thời gian</span>
+                                <div class="option-body" style="margin-top:10px;">
+                                    <em>Khách hàng hẹn mùng 10 có lương mới đóng (đang nằm ở khung giảm 70%). Gọi lại vào mùng 7 để thương lượng tạo áp lực:</em><br><br>
+                                    <strong class="nv-label">NV:</strong> "Hồ sơ của anh/chị đang được ghi nhận giảm 70% nếu đóng vào mùng 10. Tuy nhiên, Ban giám đốc vừa duyệt một quỹ hỗ trợ xóa nợ xấu đặc biệt chỉ áp dụng trong ngày hôm nay. Nếu anh/chị xoay xở tất toán luôn trước 17h chiều nay, tôi sẽ trình hồ sơ xin cắt luôn 100% phần lãi phạt. Khung hỗ trợ này qua ngày mai sẽ tự động đóng lại. Anh/chị tính toán thu xếp ngay, lợi ích hoàn toàn thuộc về anh/chị."
                                 </div>
                             </div>
-
-                            <p class="text-slate-300 border-t border-slate-800/80 pt-3">
-                                <strong class="text-indigo-400 uppercase">NV:</strong> "Dù anh/chị chọn phương án 1 hay phương án 2, điều kiện tiên quyết bắt buộc là anh/chị phải <strong>hoàn thành khoản đóng trước thiện chí tối thiểu 2.000.000đ trong vòng 48h tới</strong> để làm căn cứ đóng băng tạm thời hồ sơ pháp lý trên hệ thống."
-                            </p>
-
-                            <!-- Nhánh rẽ người thân -->
-                            <div class="p-3 sm:p-4 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-2">
-                                <span class="font-extrabold text-[10px] uppercase tracking-wider block text-amber-400">
-                                    <i class="fa-solid fa-people-arrows"></i> (Nhánh rẽ khi nói với Người thân):
-                                </span>
-                                <p class="italic text-xs sm:text-sm">
-                                    <strong>(Người thân):</strong> "Dù gia đình chọn đại diện tất toán gốc hay đôn đốc khách hàng đóng góp, hệ thống yêu cầu bắt buộc phải có <strong>lệnh nộp đóng trước thiện chí tối thiểu 2.000.000đ ghi nhận trong 48h</strong>. Khoản đóng trước này được trừ thẳng vào nợ gốc của ông/bà <strong>[HỌ_TÊN_KH]</strong> để làm căn cứ pháp lý giữ hồ sơ hỗ trợ lại văn phòng, không gửi chuyển giao về địa phương."
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Phần 4 -->
-                    <div class="space-y-3 bg-slate-900/60 p-4 sm:p-5 rounded-xl border border-slate-800">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-2 gap-1">
-                            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-scale-balanced"></i> Phần 4: Phân Tích Rủi Ro Tín Dụng & Khởi Kiện
-                            </span>
-                            <span class="text-[10px] text-amber-400 italic font-mono"><i class="fa-solid fa-volume-high"></i> Giọng: Chuyên nghiệp, khách quan, phân tích rõ ràng</span>
-                        </div>
-                        
-                        <div class="text-xs sm:text-sm leading-relaxed space-y-4">
-                            <p class="text-slate-300">
-                                <strong class="text-indigo-400 uppercase">NV:</strong> "Anh/chị vui lòng lưu ý, đây là khoản nợ xấu lâu năm đã thuộc quyền sở hữu của Hanmir. Nếu anh/chị không tận dụng phương án hỗ trợ trả góp 2 triệu này trước hạn chót 48h tới, phía công ty sẽ phải chuyển giao hồ sơ sang quy trình tố tụng thông thường để yêu cầu thu hồi **TỔNG NỢ [TỔNG_DƯ_NỢ] TRONG 1 LẦN DUY NHẤT**."
-                            </p>
-
-                            <!-- Nhánh rẽ người thân -->
-                            <div class="p-3 sm:p-4 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-2">
-                                <span class="font-extrabold text-[10px] uppercase tracking-wider block text-amber-400">
-                                    <i class="fa-solid fa-people-arrows"></i> (Nhánh rẽ khi nói với Người thân):
-                                </span>
-                                <p class="italic text-xs sm:text-sm">
-                                    <strong>(Người thân):</strong> "Gia đình cần lưu ý tính chất quan trọng của hồ sơ này. Nếu gia đình và khách hàng không phối hợp đóng trước 2 triệu để tạm hoãn xử lý trong 48h tới, bộ phận pháp lý sẽ tiến hành gửi thông báo yêu cầu thực hiện nghĩa vụ nợ gửi về Ủy ban nhân dân xã/phường cư trú và cơ quan làm việc tại <strong>[ĐỊA_CHỈ]</strong> để xác minh điều kiện thi hành nghĩa vụ tài chính **TỔNG NỢ [TỔNG_DƯ_NỢ] 1 LẦN**."
-                                </p>
-                            </div>
-
-                            <p class="text-slate-300 border-t border-slate-800/80 pt-3">
-                                <strong class="text-indigo-400 uppercase">NV:</strong> "Khi vụ việc chuyển sang giai đoạn xử lý chính thức, các khoản chi phí phát sinh như án phí tố tụng và lãi phạt quá hạn tích lũy sẽ do người vay gánh chịu, đồng thời điểm nợ xấu nhóm 5 trên CIC sẽ bị phong tỏa vĩnh viễn, ảnh hưởng lớn đến việc giao dịch tài chính sau này. Tôi sẽ gửi thông tin tài khoản chuyên thu chính thức của Hanmir qua Zalo. Anh/chị thu xếp nộp trước 2 triệu trong ngày hôm nay để tôi đăng ký bảo lưu hỗ trợ kịp thời cho mình nhé?"
-                            </p>
-
-                            <!-- Nhánh rẽ người thân -->
-                            <div class="p-3 sm:p-4 bg-amber-500/5 border border-amber-500/25 rounded-xl text-amber-300 space-y-2">
-                                <p class="italic text-xs sm:text-sm">
-                                    <strong>(Người thân):</strong> "Lúc đó, các cơ quan chức năng sẽ phải tiến hành xác minh thu nhập thực tế hoặc tài sản thuộc sở hữu của khách hàng tại địa phương theo đúng trình tự. Việc gia đình chậm phản hồi giải pháp thiện chí ngày hôm nay sẽ được đính kèm hồ sơ xử lý hành chính. Tôi sẽ gửi thông tin tài khoản chuyên thu của Hanmir. Anh/chị đại diện gia đình thu xếp khoản đóng trước 2 triệu ngay hôm nay để giữ lại hồ sơ hỗ trợ tại văn phòng, tránh phát sinh các bước xác minh không đáng có tại địa phương nhé?"
-                                </p>
+                            <div class="option-card orange">
+                                <span class="option-badge orange">Tình huống 2: Ép tăng tiền thu kỳ</span>
+                                <div class="option-body" style="margin-top:10px;">
+                                    <em>Khách hàng đang góp đều 2 triệu/tháng (đang hưởng mức giảm 50%). Dùng mồi nhử để ép khách trả nhiều hơn:</em><br><br>
+                                    <strong class="nv-label">NV:</strong> "Tôi thấy lịch sử tháng trước anh/chị đóng 2 triệu rất đúng hạn. Tháng này nếu anh/chị thu xếp đóng gấp đôi là 4 triệu, tôi sẽ cập nhật lên hệ thống biên bản xóa thêm 25% dư nợ gốc còn lại cho anh/chị. Đây là cơ chế thưởng thiện chí hiếm hoi, anh/chị cố gắng mượn người thân thêm 2 triệu nữa để kết thúc sớm khoản nợ này."
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- TAB 2: KỸ NĂNG PHẢN BIỆN PHÁP LÝ (XỬ LÝ TỪ CHỐI) -->
-                <div id="tabContentObjections" class="tab-pane hidden space-y-5">
-                    <div class="border-b border-slate-800 pb-3">
-                        <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-indigo-500"></i> BỘ PHẢN SÁT TỪ CHỐI CHÍ MẠNG CỦA HANMIR
-                        </h2>
-                        <p class="text-xs text-slate-400 mt-1">Sử dụng lý luận pháp lý đanh thép để bẻ gãy mọi lý lẽ trốn nợ của khách hàng và người thân nhưng vẫn giữ thế chủ động.</p>
+                <!-- 3 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-orange">3️⃣ Kỹ thuật "Kể chuyện" (So sánh thực tế & Răn đe ngầm)</span>
                     </div>
-
-                    <div class="space-y-4">
-                        
-                        <!-- Objection 1 -->
-                        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700 transition-all">
-                            <button onclick="toggleObjection(1)" class="w-full text-left px-4 py-3.5 sm:px-5 sm:py-4 flex items-center justify-between text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-850 transition-colors">
-                                <span class="flex items-center gap-2 pr-2">
-                                    <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-indigo-600/15 text-indigo-400 flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0">1</span>
-                                    "Tôi không ký kết hay vay nợ gì của bên Hanmir, tôi chỉ biết Mirae Asset!"
-                                </span>
-                                <i id="objIcon1" class="fa-solid fa-chevron-down text-slate-500 transition-transform shrink-0"></i>
-                            </button>
-                            <div id="objAns1" class="hidden px-4 py-3.5 sm:px-5 sm:py-4 border-t border-slate-800/80 bg-slate-950/50 text-xs sm:text-sm leading-relaxed text-slate-300 space-y-3">
-                                <p class="text-indigo-400 font-bold flex items-center gap-1 text-[11px] sm:text-xs"><i class="fa-solid fa-gavel"></i> PHẢN BIỆN CHUYÊN NGHIỆP:</p>
-                                <p>"Thưa anh/chị, căn cứ theo **Điều 365 Bộ luật Dân sự**, tổ chức tín dụng có toàn quyền bán hoặc chuyển nhượng quyền thu hồi nợ cho bên thứ ba mà không cần sự đồng ý của khách hàng. Toàn bộ hồ sơ nợ đã chuyển nhượng hợp pháp sang Hanmir. Trạng thái nợ xấu nhóm 5 trên hệ thống CIC quốc gia của anh/chị hiện nay chỉ được xóa bỏ khi anh/chị thực hiện tất toán thành công với Hanmir."</p>
-                                <div class="p-3 bg-amber-500/5 border-l-2 border-amber-500 text-amber-300 italic text-[11px] rounded-r-lg leading-relaxed">
-                                    <strong>(Người thân):</strong> "Thưa anh/chị, việc mua bán chuyển nhượng nợ được thực hiện bằng văn bản đúng pháp luật. Ông/bà [HỌ_TÊN_KH] đã quá hạn quá lâu, Hanmir là chủ sở hữu hợp pháp duy nhất hiện nay. Anh/chị là người thân hãy nhanh chóng đôn đốc khách hàng hợp tác giải quyết sớm."
-                                </div>
+                    <div class="content-body">
+                        <p>Vẽ ra hai bức tranh đối lập về những khách hàng trước đây để tạo hiệu ứng FOMO (sợ bỏ lỡ) và sợ hãi hậu quả pháp lý. Kể chuyện với thái độ khách quan, không dọa nạt trực tiếp nhưng để khách hàng tự suy ngẫm.</p>
+                        <div class="branch-grid">
+                            <div class="branch-card" style="border-left: 3px solid #34d399; background: rgba(52,211,153,.05);">
+                                <span class="bc-head" style="color:#34d399;">✅ Bức tranh thành công (Hợp tác):</span>
+                                "Tháng trước tôi vừa xử lý một hồ sơ của anh Nguyễn Văn A ở Tiền Giang. Nợ gốc lẫn lãi lên tới 50 triệu, hoàn cảnh cũng đình trệ công việc như anh/chị, ban đầu không biết lấy đâu ra tiền. Sau khi tôi tư vấn, anh ấy chịu khó đi mượn họ hàng đóng trước 2 triệu để giữ cơ chế, rồi trả dần phần gốc trong 6 tháng. Hiện tại hồ sơ đã đóng băng thủ tục kiện tụng, ngân hàng đã cấp lại thẻ tín dụng mới cho anh ấy làm ăn."
+                            </div>
+                            <div class="branch-card" style="border-left: 3px solid #f87171; background: rgba(239,68,68,.05);">
+                                <span class="bc-head bc-red">❌ Bức tranh thất bại (Chống đối):</span>
+                                "Ngược lại, hồ sơ của chị B ở Bắc Ninh lại chọn cách thách thức công ty. Chị ấy khăng khăng không đóng vì cho rằng công ty không làm gì được. Đến khi bộ phận Tố tụng tống đạt đơn yêu cầu thi hành án về tận phòng nhân sự nơi chị ấy làm việc, công ty lập tức cho chị ấy thôi việc vì dính líu tài chính phức tạp. Lúc đó chị ấy cuống cuồng đi cắm xe xoay tiền để xin rút đơn nhưng hồ sơ đã đưa ra chính quyền, không ai can thiệp được nữa."
                             </div>
                         </div>
-
-                        <!-- Objection 2 -->
-                        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700 transition-all">
-                            <button onclick="toggleObjection(2)" class="w-full text-left px-4 py-3.5 sm:px-5 sm:py-4 flex items-center justify-between text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-850 transition-colors">
-                                <span class="flex items-center gap-2 pr-2">
-                                    <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-indigo-600/15 text-indigo-400 flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0">2</span>
-                                    "Đang thất nghiệp, khó khăn, 2 triệu cũng không có đóng!"
-                                </span>
-                                <i id="objIcon2" class="fa-solid fa-chevron-down text-slate-500 transition-transform shrink-0"></i>
-                            </button>
-                            <div id="objAns2" class="hidden px-4 py-3.5 sm:px-5 sm:py-4 border-t border-slate-800/80 bg-slate-950/50 text-xs sm:text-sm leading-relaxed text-slate-300 space-y-3">
-                                <p class="text-indigo-400 font-bold flex items-center gap-1 text-[11px] sm:text-xs"><i class="fa-solid fa-brain"></i> GIẢI THÍCH HỢP TÌNH HỢP LÝ:</p>
-                                <p>"Chính vì hoàn cảnh thực tế khó khăn nên công ty mới hỗ trợ mở gói cơ cấu đóng linh hoạt chỉ <strong>2.000.000đ/tháng</strong>. Chứ nếu để hồ sơ chuyển sang quy trình tố tụng thu hồi toàn bộ số tiền cùng một lúc, anh/chị sẽ phải gánh chịu thêm phần án phí rất lớn từ cơ quan chức năng. Anh/chị nên ưu tiên thu xếp mượn tạm 2 triệu đóng trước hạn chót để hoãn thủ tục tố tụng và bảo vệ điểm tín dụng cá nhân trên hệ thống."</p>
-                                <div class="p-3 bg-amber-500/5 border-l-2 border-amber-500 text-amber-300 italic text-[11px] rounded-r-lg leading-relaxed">
-                                    <strong>(Người thân):</strong> "Chính vì biết khách hàng khó khăn nên chúng tôi mới hỗ trợ gia đình phương án chia nhỏ kỳ đóng chỉ 2 triệu/tháng. Anh/chị là người thân trực tiếp hãy giúp đỡ khách hàng đóng khoản đóng trước 2 triệu này trong 48h tới để đóng băng hồ sơ pháp lý, tránh bị cưỡng chế thu hồi 1 lần."
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Objection 3 -->
-                        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700 transition-all">
-                            <button onclick="toggleObjection(3)" class="w-full text-left px-4 py-3.5 sm:px-5 sm:py-4 flex items-center justify-between text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-850 transition-colors">
-                                <span class="flex items-center gap-2 pr-2">
-                                    <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-indigo-600/15 text-indigo-400 flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0">3</span>
-                                    "Tôi không liên quan, ai vay thì các người đi mà tìm người đó!"
-                                </span>
-                                <i id="objIcon3" class="fa-solid fa-chevron-down text-slate-500 transition-transform shrink-0"></i>
-                            </button>
-                            <div id="objAns3" class="hidden px-4 py-3.5 sm:px-5 sm:py-4 border-t border-slate-800/80 bg-slate-950/50 text-xs sm:text-sm leading-relaxed text-slate-300 space-y-3">
-                                <p class="text-indigo-400 font-bold flex items-center gap-1 text-[11px] sm:text-xs"><i class="fa-solid fa-hand-fist"></i> RĂN ĐE PHÁP LUẬT CHUẨN MỰC (Dành riêng cho Người thân):</p>
-                                <p>"Thưa anh/chị, đúng là anh/chị không đứng tên ký hợp đồng vay. Tuy nhiên, khi cơ quan pháp luật thụ lý đơn kiện, họ sẽ thực hiện gửi giấy triệu tập, xác minh lý lịch nhân thân khách hàng tại địa chỉ hộ khẩu cư trú của gia đình. Đồng thời, lý lịch nợ xấu CIC nhóm 5 của khách hàng sẽ bị khóa vĩnh viễn, ảnh hưởng trực tiếp đến khả năng vay thế chấp, mua trả góp của mọi thành viên chung hộ khẩu sau này. Việc gia đình hỗ trợ đóng đóng trước 2 triệu hôm nay chính là bảo vệ uy tín và quyền lợi sát sườn của chính gia đình mình."</p>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
-                <!-- TAB 3: MA TRẬN SO SÁNH TÀI CHÍNH QUYẾT ĐỊNH -->
-                <div id="tabContentVisual" class="tab-pane hidden space-y-5">
-                    <div class="border-b border-slate-800 pb-3">
-                        <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-chart-pie text-indigo-500"></i> MA TRẬN SO SÁNH QUYẾT ĐỊNH CỦA KHÁCH NỢ & GIA ĐÌNH
-                        </h2>
-                        <p class="text-xs text-slate-400 mt-1">Phân tích trực quan lợi ích sát sườn để nhân viên dùng dồn ép khách nợ và người thân đồng ý giải pháp đóng trước 2 triệu ngay lập tức.</p>
+                <!-- 4 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-orange">4️⃣ Kỹ thuật "Ghi nợ ân tình" (Đánh vào trách nhiệm cá nhân)</span>
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                        
-                        <!-- Cột 1: Bị Khởi Kiện -->
-                        <div class="bg-red-950/10 border border-red-500/20 rounded-xl p-4 sm:p-5 flex flex-col gap-4 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full -mr-10 -mt-10"></div>
-                            <div>
-                                <span class="bg-red-500/10 text-red-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-red-500/20 uppercase font-mono">Trốn tránh / Không hợp tác</span>
-                                <h3 class="font-bold text-white text-sm sm:text-base mt-1.5 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-gavel text-red-500"></i> Kịch Bản Bị Khởi Kiện
-                                </h3>
-                            </div>
-                            <div class="space-y-3 text-xs flex-1 text-slate-300">
-                                <div class="flex justify-between border-b border-slate-800/80 pb-2">
-                                    <span>Nghĩa vụ đóng:</span>
-                                    <span class="text-red-400 font-bold">100% Tổng Dư Nợ 1 Lần</span>
-                                </div>
-                                <div class="flex justify-between border-b border-slate-800/80 pb-2">
-                                    <span>Chi phí phát sinh:</span>
-                                    <span class="text-red-400 font-bold text-right">Toàn bộ Án phí + Lãi quá hạn</span>
-                                </div>
-                                <div class="flex justify-between pb-2">
-                                    <span>Hậu quả nhân thân:</span>
-                                    <span class="text-red-400 text-right font-semibold">Tống đạt đơn tố tụng về địa phương & nơi làm việc</span>
-                                </div>
-                            </div>
-                            <div class="p-2.5 bg-red-500/5 rounded-lg border border-red-500/10 text-[10px] sm:text-[11px] text-red-400 text-center font-bold">
-                                THIỆT HẠI DANH DỰ GIA ĐÌNH VÀ CƯỠNG CHẾ CIC
-                            </div>
+                    <div class="content-body">
+                        <p>Tạo cho khách hàng ảo giác rằng nhân viên quản lý nợ đang "phá luật", vượt quyền để bảo vệ quyền lợi cho họ. Khi khách hàng cảm thấy họ đang mắc nợ ân tình của chính người thu nợ, họ sẽ có trách nhiệm đi xoay tiền cao hơn để "không làm ảnh hưởng đến ân nhân".</p>
+                        <div class="amber-box">
+                            <span class="amber-box-label">🗣️ Ví dụ thực chiến:</span>
+                            <p><strong class="nv-label">NV:</strong> "Nguyên tắc cứng của hệ thống là đúng 12h trưa nay nếu không có giao dịch đóng trước 2 triệu, mã ưu đãi sẽ bị hủy vĩnh viễn và hồ sơ tự động chuyển sang tổ Tố tụng với lý do 'Khách hàng thiếu thiện chí'. Tuy nhiên, qua quá trình trao đổi, tôi đánh giá anh/chị là người đàng hoàng, đang kẹt tạm thời. Tôi đã dùng uy tín cá nhân của mình để trực tiếp làm đơn bảo lãnh với Trưởng phòng, xin gia hạn mã ưu đãi này cho anh/chị thêm 4 tiếng đồng hồ (đến 16h chiều nay). Tôi đã làm hết sức để bảo vệ hồ sơ cho anh/chị, anh/chị phải chủ động xoay xở ngay. Tuyệt đối không được để quá giờ làm tôi bị kỷ luật và mang tiếng với cấp trên."</p>
                         </div>
-
-                        <!-- Cột 2: Trả góp kỳ -->
-                        <div class="bg-indigo-950/10 border border-indigo-500/20 rounded-xl p-4 sm:p-5 flex flex-col gap-4 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full -mr-10 -mt-10"></div>
-                            <div>
-                                <span class="bg-indigo-500/10 text-indigo-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-indigo-500/20 uppercase font-mono">Giảm tải áp lực</span>
-                                <h3 class="font-bold text-white text-sm sm:text-base mt-1.5 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-calendar-check text-indigo-500"></i> Cơ Cấu Góp 2tr/Tháng
-                                </h3>
-                            </div>
-                            <div class="space-y-3 text-xs flex-1 text-slate-300">
-                                <div class="flex justify-between border-b border-slate-800/80 pb-2">
-                                    <span>đóng trước giữ cơ chế:</span>
-                                    <span class="text-indigo-400 font-bold font-mono">2.000.000đ trong 48h</span>
-                                </div>
-                                <div class="flex justify-between border-b border-slate-800/80 pb-2">
-                                    <span>Phương thức tiếp:</span>
-                                    <span class="text-white font-semibold">Đóng đều 2 triệu mỗi tháng</span>
-                                </div>
-                                <div class="flex justify-between pb-2">
-                                    <span>Ưu đãi áp dụng:</span>
-                                    <span class="text-indigo-400 text-right font-bold">Miễn giảm tối đa 50% tiền lãi phạt</span>
-                                </div>
-                            </div>
-                            <div class="p-2.5 bg-indigo-500/5 rounded-lg border border-indigo-500/10 text-[10px] sm:text-[11px] text-indigo-400 text-center font-bold">
-                                PHÙ HỢP VỚI THU NHẬP VÀ ĐANG KHÓ KHĂN
-                            </div>
-                        </div>
-
-                        <!-- Cột 3: Tất toán gốc -->
-                        <div class="bg-emerald-950/10 border border-emerald-500/20 rounded-xl p-4 sm:p-5 flex flex-col gap-4 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -mr-10 -mt-10"></div>
-                            <div>
-                                <span class="bg-emerald-500/10 text-emerald-400 text-[9px] font-bold px-1.5 py-0.5 rounded border border-emerald-500/20 uppercase font-mono">Tất toán nhanh</span>
-                                <h3 class="font-bold text-white text-sm sm:text-base mt-1.5 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-receipt text-emerald-500"></i> Thanh Lý Gốc (Miễn Lãi)
-                                </h3>
-                            </div>
-                            <div class="space-y-3 text-xs flex-1 text-slate-300">
-                                <div class="flex justify-between border-b border-slate-800/80 pb-2">
-                                    <span>đóng trước giữ cơ chế:</span>
-                                    <span class="text-emerald-400 font-bold font-mono">2.000.000đ trong 48h</span>
-                                </div>
-                                <div class="flex justify-between border-b border-slate-800/80 pb-2">
-                                    <span>Hạn đóng nốt gốc:</span>
-                                    <span class="text-white font-semibold">Gia hạn thêm 5 - 7 ngày</span>
-                                </div>
-                                <div class="flex justify-between pb-2">
-                                    <span>Ưu đãi tối đa:</span>
-                                    <span class="text-emerald-400 text-right font-bold">Miễn giảm 100% tiền lãi phạt</span>
-                                </div>
-                            </div>
-                            <div class="p-2.5 bg-emerald-500/5 rounded-lg border border-emerald-500/10 text-[10px] sm:text-[11px] text-emerald-400 text-center font-bold">
-                                XÓA NỢ XẤU SAU 5 NĂM, DƯ NỢ CIC VỀ 0 – 1 SỐ NGÂN HÀNG CHO VAY LẠI
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
-            </div>
-        </section>
+                <!-- 5 -->
+                <div class="section-block">
+                    <div class="section-header">
+                        <span class="section-label sl-orange">5️⃣ Kỹ thuật "Giấy trắng mực đen" (Thiết lập Biên Bản Cam Kết - BBCK)</span>
+                    </div>
+                    <div class="content-body">
+                        <p>Thỏa thuận miệng không có sức nặng ràng buộc. Mọi chính sách miễn giảm hoặc chia kỳ đều phải gắn liền với quá trình xác lập văn bản. Việc bắt khách hàng thực hiện các bước viết tay cam kết khiến họ cảm nhận rõ sức nặng của pháp lý và không dám bùng nợ.</p>
+                        <div class="dir-item" style="margin-top:12px;">
+                            <span class="dir-num" style="color:#fb923c;">📝</span>
+                            <div class="dir-body">
+                                <strong>Quy trình thiết lập BBCK chuẩn mực:</strong>
+                                <ul style="margin-top: 6px; padding-left: 16px; color: #d6d3d1;">
+                                    <li style="margin-bottom: 4px;">Yêu cầu khách hàng lấy giấy bút, tự tay viết toàn bộ nội dung Biên bản cam kết thanh toán. Không chấp nhận đánh máy.</li>
+                                    <li style="margin-bottom: 4px;">Khách hàng phải tự trình bày rõ lý do xin miễn giảm/khất nợ vào đơn. Đây là bước để khách hàng tự nhận thức rõ tình trạng nợ của bản thân.</li>
+                                    <li style="margin-bottom: 4px;">Ký, ghi rõ họ tên và đặt Căn cước công dân bản gốc lên tờ giấy cam kết để chụp hình gửi qua Zalo.</li>
+                                    <li><strong>Áp lực bổ sung:</strong> Nếu nhân viên nhận thấy BBCK viết hời hợt, chữ viết cẩu thả, lập tức yêu cầu khách hàng chép lại tờ khác. Thái độ nghiêm ngặt này khẳng định công ty Hanmir làm việc tuân thủ pháp luật tuyệt đối.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    </main>
+            </div><!-- /tab tech -->
 
-    <!-- Footer ứng dụng -->
-    <footer class="bg-slate-950 border-t border-slate-800 py-3 shrink-0 text-center text-[10px] sm:text-xs text-slate-500">
-        <p>© 2026 Tài liệu nội bộ tự xây dựng – Dành riêng cho team. Nghiêm cấm chia sẻ ra ngoài.</p>
-    </footer>
+        </div><!-- /tab-content-wrap -->
+    </section>
+</main>
 
-    <!-- Script điều hướng -->
-    <script>
-        // Hàm chuyển tab mượt mà
-        function switchTab(tabId) {
-            const panes = document.querySelectorAll('.tab-pane');
-            panes.forEach(pane => pane.classList.add('hidden'));
+<footer>© 2026 Tài liệu nội bộ tự xây dựng – Dành riêng cho team. Nghiêm cấm chia sẻ ra ngoài.</footer>
 
-            const activePane = document.getElementById('tabContent' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
-            if(activePane) activePane.classList.remove('hidden');
-
-            const navButtons = [
-                { id: 'tabBtnScript', element: document.getElementById('tabBtnScript'), class: 'bg-indigo-600 text-white shadow' },
-                { id: 'tabBtnObjections', element: document.getElementById('tabBtnObjections'), class: 'bg-indigo-600 text-white shadow' },
-                { id: 'tabBtnVisual', element: document.getElementById('tabBtnVisual'), class: 'bg-indigo-600 text-white shadow' }
-            ];
-
-            navButtons.forEach(btn => {
-                if(btn.id === 'tabBtn' + tabId.charAt(0).toUpperCase() + tabId.slice(1)) {
-                    btn.element.className = "flex-1 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 " + btn.class;
-                } else {
-                    btn.element.className = "flex-1 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-400 hover:text-white hover:bg-slate-900";
-                }
-            });
-        }
-
-        // Toggle câu hỏi/phản biện
-        function toggleObjection(index) {
-            const ans = document.getElementById('objAns' + index);
-            const icon = document.getElementById('objIcon' + index);
-            if(ans && icon) {
-                if(ans.classList.contains('hidden')) {
-                    ans.classList.remove('hidden');
-                    icon.classList.add('rotate-180');
-                } else {
-                    ans.classList.add('hidden');
-                    icon.classList.remove('rotate-180');
-                }
-            }
-        }
-    </script>
+<script>
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    var map = { script: 'Script', objections: 'Objections', visual: 'Visual', tech: 'Tech' };
+    document.getElementById('tabContent' + map[tabId]).classList.add('active');
+    document.getElementById('tabBtn' + map[tabId]).classList.add('active');
+}
+function toggleObjection(index) {
+    var ans = document.getElementById('objAns' + index);
+    var icon = document.getElementById('objIcon' + index);
+    if (!ans || !icon) return;
+    var open = ans.classList.toggle('show');
+    icon.classList.toggle('open', open);
+}
+</script>
 </body>
 </html>
